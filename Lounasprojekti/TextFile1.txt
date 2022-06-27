@@ -1,0 +1,1 @@
+﻿Scaffold-DbContext 'server=localhost;database=LounasDB;trusted_connection=true' Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
