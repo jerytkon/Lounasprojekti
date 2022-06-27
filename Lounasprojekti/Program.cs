@@ -3,67 +3,136 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Lounasprojekti.Models;
 using Lounasprojekti;
+using Lounasprojekti.Models;
 
-Kyselyt a = new Kyselyt();
+//Kyselyt a = new Kyselyt();
 
-var demo = a.SelaaRavintolat();
-foreach (var item in demo)
-    Console.WriteLine(item.Key + " " + item.Value);
+//var demo = a.SelaaRavintolat();
+//foreach (var item in demo)
+//    Console.WriteLine(item.Key + " " + item.Value);
+//a.HaeRuokailijat(1);
 
-class Kyselyt
+var b = new Muokkaus();
+//b.LisääArvio(2, 1, 4, "Olipas hyvää.");
+
+b.AloitaLounastapahtuma(3, 3);
+
+//b.IlmoittauduLounaalle(2, 2);
+
+class Muokkaus
 {
     LounasDBContext db = new LounasDBContext();
 
-
-    //Selaa ravintoloita eri parametreilla
-    public Dictionary<string, int> SelaaRavintolat()
+    public void LisääArvio(int ravintolaId, int käyttäjäId, int arvosana, string kommentti = "")
     {
-        //Selaa ravintolat ja näytä ilmoittautuneet syömään
-        // lisätään where ehto näyttämään vain tälle päivälle
-        Dictionary<string, int> map = new Dictionary<string, int>();
-        var kysely = (from i in db.Ravintolas
-                      join i2 in db.Lounastapahtumas on i.RavintolaId equals i2.RavintolaId
-                      join i3 in db.Lounasseuras on i2.LounastapahtumaId equals i3.LounastapahtumaId
-                      group i by i.RavintolanNimi into g
-                      select new { Ravintolanimi = g.Key, Count = g.Count() }).ToList();
-        foreach (var item in kysely)
+        // lisää tarkistukset: arvosana 1-5, kommentti.Length < 200
+
+        var uusi = new Arvio()
         {
-            map.Add(item.Ravintolanimi, item.Count);
-        }
-        return map;
-    }
-public List<string> HaeRavintolanTiedot(int ravintolaID)
-    {
-        // Lisää ravintolan kommentit listan loppuun
-        var ravintola = db.Ravintolas.Find(ravintolaID);
-        var kysely1 = (from i in db.Arvios
-                       where i.RavintolaId == ravintolaID
-                       select i.Arvosana).Average();
+            RavintolaId = ravintolaId,
+            KäyttäjäId = käyttäjäId,
+            Päivämäärä = DateTime.Today,
+            Arvosana = arvosana,
+            Kommentti = kommentti,
+        };
 
-        var lista = new List<string>();
-        lista.Add(ravintola.RavintolanNimi);
-        lista.Add(ravintola.Kategoria);
-        lista.Add(kysely1.ToString());
-        lista.Add(ravintola.Osoite);
-        lista.Add(ravintola.Postinumero);
-        lista.Add(ravintola.Postitoimipaikka);
-        lista.Add(ravintola.Verkkosivu);
-        return lista;
+        // lisää try catch
+
+        db.Arvios.Add(uusi);
+        db.SaveChanges();
     }
-    public void HaeRuokailijat(int ravintolaID)
+
+    public void AloitaLounastapahtuma(int käyttäjäId, int ravintolaId)
     {
-        var kysely = from i in db.Lounastapahtumas
-                     join i2 in db.Lounasseuras on i.LounastapahtumaId equals i2.LounastapahtumaId
-                     join i3 in db.Käyttäjäs on i2.KäyttäjäId equals i3.KäyttäjäId
-                     where i.RavintolaId == ravintolaID
-                     select i;
-        foreach (var item in kysely)
+        var uusi = new Lounastapahtuma()
         {
-            Console.WriteLine(item);
+            RavintolaId = ravintolaId,
+            Päivämäärä = DateTime.Today
+        };
+
+        db.Lounastapahtumas.Add(uusi);
+        db.SaveChanges();
+
+        var uusi2 = new Lounasseura()
+        {
+            LounastapahtumaId = (from i in db.Lounastapahtumas
+                                 where i.RavintolaId == ravintolaId && i.Päivämäärä == DateTime.Today
+                                 select i.LounastapahtumaId).First(),
+            KäyttäjäId = käyttäjäId
+        };
+
+        db.Lounasseuras.Add(uusi2);
+        db.SaveChanges();
+    }
+
+    public void AloitaLounastapahtuma(int käyttäjäId, int ravintolaId, DateTime pvm)
+    {
+        var uusi = new Lounastapahtuma()
+        {
+            RavintolaId = ravintolaId,
+            Päivämäärä = pvm
+        };
+
+        db.Lounastapahtumas.Add(uusi);
+        db.SaveChanges();
+
+        var uusi2 = new Lounasseura()
+        {
+            LounastapahtumaId = (from i in db.Lounastapahtumas
+                                 where i.RavintolaId == ravintolaId && i.Päivämäärä == pvm
+                                 select i.LounastapahtumaId).First(),
+            KäyttäjäId = käyttäjäId
+        };
+
+        db.Lounasseuras.Add(uusi2);
+        db.SaveChanges();
+    }
+
+    public void IlmoittauduLounaalle(int ravintolaId, int käyttäjäId)
+    {
+        var lounastapahtumaId = (from i in db.Lounastapahtumas
+                                 where i.RavintolaId == ravintolaId && i.Päivämäärä == DateTime.Today
+                                 select i.LounastapahtumaId).FirstOrDefault();
+
+        if (lounastapahtumaId == 0)
+        {
+            AloitaLounastapahtuma(ravintolaId, käyttäjäId);
+        }
+        else
+        {
+            var uusi = new Lounasseura()
+            {
+                LounastapahtumaId = lounastapahtumaId,
+                KäyttäjäId = käyttäjäId
+            };
+
+            db.Lounasseuras.Add(uusi);
+            db.SaveChanges();
+        }
+    }
+
+    public void IlmoittauduLounaalle(int ravintolaId, int käyttäjäId, DateTime pvm)
+    {
+        var lounastapahtumaId = (from i in db.Lounastapahtumas
+                                 where i.RavintolaId == ravintolaId && i.Päivämäärä == pvm
+                                 select i.LounastapahtumaId).FirstOrDefault();
+
+        if (lounastapahtumaId == 0)
+        {
+            AloitaLounastapahtuma(ravintolaId, käyttäjäId, pvm);
+        }
+        else
+        {
+            var uusi = new Lounasseura()
+            {
+                LounastapahtumaId = lounastapahtumaId,
+                KäyttäjäId = käyttäjäId
+            };
+
+            db.Lounasseuras.Add(uusi);
+            db.SaveChanges();
         }
 
     }
-
 }
