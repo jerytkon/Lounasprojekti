@@ -4,135 +4,48 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Lounasprojekti;
-using Lounasprojekti.Models;
+using ConsoleTools;
 
-//Kyselyt a = new Kyselyt();
+
+var a = new Kyselyt();
+var b = new Muokkaus();
+var c = new TietojenNäyttäminen();
 
 //var demo = a.SelaaRavintolat();
 //foreach (var item in demo)
 //    Console.WriteLine(item.Key + " " + item.Value);
 //a.HaeRuokailijat(1);
 
-var b = new Muokkaus();
 //b.LisääArvio(2, 1, 4, "Olipas hyvää.");
 
-b.AloitaLounastapahtuma(3, 3);
 
-//b.IlmoittauduLounaalle(2, 2);
+var subMenu = new ConsoleMenu(args, level: 1)
+    .AddRange(a.SelaaRavintolatValikko())
+  //.Add("Sub_One",() => NäytäRavintolat(a.SelaaRavintolat()))
+  .Add("Sub_Close", ConsoleMenu.Close)
+  .Configure(config =>
+  {
+      config.Selector = "--> ";
+      config.EnableFilter = false;
+      config.Title = "Submenu";
+      config.EnableBreadcrumb = true;
+      config.WriteBreadcrumbAction = titles => Console.WriteLine(string.Join(" / ", titles));
+  });
 
-class Muokkaus
-{
-    LounasDBContext db = new LounasDBContext();
+var menu = new ConsoleMenu(args, level: 0)
+  .Add("Näytä ravintolat", subMenu.Show)
+  .Add("Sub", subMenu.Show)
+  .Add("Change me", (thisMenu) => thisMenu.CurrentItem.Name = "I am changed!")
+  .Add("Close", ConsoleMenu.Close)
+  //.Add("Action then Close", (thisMenu) => { SomeAction("Close"); thisMenu.CloseMenu(); })
+  .Add("Exit", () => Environment.Exit(0))
+  .Configure(config =>
+  {
+      config.Selector = "--> ";
+      config.EnableFilter = false;
+      config.Title = "Main menu";
+      config.EnableWriteTitle = true;
+      config.EnableBreadcrumb = true;
+  });
 
-    public void LisääArvio(int ravintolaId, int käyttäjäId, int arvosana, string kommentti = "")
-    {
-        // lisää tarkistukset: arvosana 1-5, kommentti.Length < 200
-
-        var uusi = new Arvio()
-        {
-            RavintolaId = ravintolaId,
-            KäyttäjäId = käyttäjäId,
-            Päivämäärä = DateTime.Today,
-            Arvosana = arvosana,
-            Kommentti = kommentti,
-        };
-
-        // lisää try catch
-
-        db.Arvios.Add(uusi);
-        db.SaveChanges();
-    }
-
-    public void AloitaLounastapahtuma(int käyttäjäId, int ravintolaId)
-    {
-        var uusi = new Lounastapahtuma()
-        {
-            RavintolaId = ravintolaId,
-            Päivämäärä = DateTime.Today
-        };
-
-        db.Lounastapahtumas.Add(uusi);
-        db.SaveChanges();
-
-        var uusi2 = new Lounasseura()
-        {
-            LounastapahtumaId = (from i in db.Lounastapahtumas
-                                 where i.RavintolaId == ravintolaId && i.Päivämäärä == DateTime.Today
-                                 select i.LounastapahtumaId).First(),
-            KäyttäjäId = käyttäjäId
-        };
-
-        db.Lounasseuras.Add(uusi2);
-        db.SaveChanges();
-    }
-
-    public void AloitaLounastapahtuma(int käyttäjäId, int ravintolaId, DateTime pvm)
-    {
-        var uusi = new Lounastapahtuma()
-        {
-            RavintolaId = ravintolaId,
-            Päivämäärä = pvm
-        };
-
-        db.Lounastapahtumas.Add(uusi);
-        db.SaveChanges();
-
-        var uusi2 = new Lounasseura()
-        {
-            LounastapahtumaId = (from i in db.Lounastapahtumas
-                                 where i.RavintolaId == ravintolaId && i.Päivämäärä == pvm
-                                 select i.LounastapahtumaId).First(),
-            KäyttäjäId = käyttäjäId
-        };
-
-        db.Lounasseuras.Add(uusi2);
-        db.SaveChanges();
-    }
-
-    public void IlmoittauduLounaalle(int ravintolaId, int käyttäjäId)
-    {
-        var lounastapahtumaId = (from i in db.Lounastapahtumas
-                                 where i.RavintolaId == ravintolaId && i.Päivämäärä == DateTime.Today
-                                 select i.LounastapahtumaId).FirstOrDefault();
-
-        if (lounastapahtumaId == 0)
-        {
-            AloitaLounastapahtuma(ravintolaId, käyttäjäId);
-        }
-        else
-        {
-            var uusi = new Lounasseura()
-            {
-                LounastapahtumaId = lounastapahtumaId,
-                KäyttäjäId = käyttäjäId
-            };
-
-            db.Lounasseuras.Add(uusi);
-            db.SaveChanges();
-        }
-    }
-
-    public void IlmoittauduLounaalle(int ravintolaId, int käyttäjäId, DateTime pvm)
-    {
-        var lounastapahtumaId = (from i in db.Lounastapahtumas
-                                 where i.RavintolaId == ravintolaId && i.Päivämäärä == pvm
-                                 select i.LounastapahtumaId).FirstOrDefault();
-
-        if (lounastapahtumaId == 0)
-        {
-            AloitaLounastapahtuma(ravintolaId, käyttäjäId, pvm);
-        }
-        else
-        {
-            var uusi = new Lounasseura()
-            {
-                LounastapahtumaId = lounastapahtumaId,
-                KäyttäjäId = käyttäjäId
-            };
-
-            db.Lounasseuras.Add(uusi);
-            db.SaveChanges();
-        }
-
-    }
-}
+menu.Show();
