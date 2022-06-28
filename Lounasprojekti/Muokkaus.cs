@@ -24,6 +24,8 @@ class Muokkaus
 
         db.Arvios.Add(uusi);
         db.SaveChanges();
+        Console.WriteLine("Arvio lisätty");
+        Console.ReadLine();
     }
 
     public void LisääArvio(int ravintolaId, int käyttäjäId)
@@ -48,9 +50,13 @@ class Muokkaus
 
         db.Arvios.Add(uusi);
         db.SaveChanges();
+        Console.WriteLine("Arvio lisätty");
+        Console.ReadLine();
     }
 
-    public void AloitaLounastapahtuma(int käyttäjäId, int ravintolaId)
+
+    // Printtaukset kuntoon
+    public void AloitaLounastapahtuma(int ravintolaId, int käyttäjäId)
     {
         var uusi = new Lounastapahtuma()
         {
@@ -73,7 +79,7 @@ class Muokkaus
         db.SaveChanges();
     }
 
-    public void AloitaLounastapahtuma(int käyttäjäId, int ravintolaId, DateTime pvm)
+    public void AloitaLounastapahtuma(int ravintolaId, int käyttäjäId, DateTime pvm)
     {
         var uusi = new Lounastapahtuma()
         {
@@ -83,6 +89,8 @@ class Muokkaus
 
         db.Lounastapahtumas.Add(uusi);
         db.SaveChanges();
+        Console.WriteLine("Uusi lounastapahtuma luotu");
+        Console.ReadLine();
 
         var uusi2 = new Lounasseura()
         {
@@ -94,6 +102,36 @@ class Muokkaus
 
         db.Lounasseuras.Add(uusi2);
         db.SaveChanges();
+        Console.WriteLine("Sinut on lisätty lounaalle");
+        Console.ReadLine();
+    }
+
+    public void LisääRavintola()
+    {
+        var uusi = new Ravintola();
+
+        Console.Write("Ravintolan nimi: ");
+        uusi.RavintolanNimi = Console.ReadLine();
+
+        Console.Write("Osoite: ");
+        uusi.Osoite = Console.ReadLine();
+
+        Console.Write("Postitoimipaikka: ");
+        uusi.Postitoimipaikka = Console.ReadLine();
+
+        Console.Write("Postinumero: ");
+        uusi.Postinumero = Console.ReadLine();
+
+        Console.Write("Verkkosivu: ");
+        uusi.Verkkosivu = Console.ReadLine();
+
+        Console.Write("Kategoria: ");
+        uusi.Kategoria = Console.ReadLine();
+
+        db.Ravintolas.Add(uusi);
+        db.SaveChanges();
+        Console.WriteLine("Ravintola lisätty");
+        Console.ReadLine();
     }
 
     public void IlmoittauduLounaalle(int ravintolaId, int käyttäjäId)
@@ -105,6 +143,8 @@ class Muokkaus
         if (lounastapahtumaId == 0)
         {
             AloitaLounastapahtuma(ravintolaId, käyttäjäId);
+            Console.WriteLine("Uusi lounastapahtuma luotu");
+            Console.ReadLine();
         }
         else
         {
@@ -116,6 +156,8 @@ class Muokkaus
 
             db.Lounasseuras.Add(uusi);
             db.SaveChanges();
+            Console.WriteLine("Sinut on lisätty lounaalle");
+            Console.ReadLine();
         }
     }
 
@@ -128,6 +170,8 @@ class Muokkaus
         if (lounastapahtumaId == 0)
         {
             AloitaLounastapahtuma(ravintolaId, käyttäjäId, pvm);
+            Console.WriteLine("Lounastapahtuma luotu");
+            Console.ReadLine();
         }
         else
         {
@@ -139,6 +183,8 @@ class Muokkaus
 
             db.Lounasseuras.Add(uusi);
             db.SaveChanges();
+            Console.WriteLine("Sinut on lisätty lounaalle");
+            Console.ReadLine();
         }
 
     }

@@ -2,14 +2,14 @@
 using ConsoleTools;
 using Lounasprojekti.Models;
 
-class TietojenNäyttäminen
+static class TietojenNäyttäminen
 {
-    public string RavintolaNimi { get; set; }
-    public int RavintolaID { get; set; }
+    public static string RavintolaNimi { get; set; }
+    public static int RavintolaID { get; set; }
 
-    LounasDBContext db = new LounasDBContext();
+    static LounasDBContext db = new LounasDBContext();
 
-    public void NäytäRavintolat(Dictionary<string, int> a)
+    public static void NäytäRavintolat(Dictionary<string, int> a)
     {
         
         foreach (var item in a)
@@ -17,7 +17,7 @@ class TietojenNäyttäminen
         Console.ReadLine();
     }
 
-    public void NäytäRavintolanTiedot(List<string> a)
+    public static void NäytäRavintolanTiedot(List<string> a)
     {
         PäivitäRavintolaId(a[0]);
         RavintolaNimi = a[0];
@@ -27,7 +27,7 @@ class TietojenNäyttäminen
     }
 
 
-    public void NäytäRavintolanTiedot(List<string> a, ConsoleMenu con)
+    public static void NäytäRavintolanTiedot(List<string> a, ConsoleMenu con)
     {
         PäivitäRavintolaId(a[0]);
         RavintolaNimi = a[0];
@@ -38,11 +38,11 @@ class TietojenNäyttäminen
         con.Show();
     }
 
-    public void PäivitäRavintolaId(string ravintolanNimi)
+    public static void PäivitäRavintolaId(string ravintolanNimi)
     {
         var kysely = (from i in db.Ravintolas
                       where i.RavintolanNimi == ravintolanNimi
-                      select i.RavintolaId).FirstOrDefault();
+                      select i.RavintolaId).First();
 
         RavintolaID = kysely;
 

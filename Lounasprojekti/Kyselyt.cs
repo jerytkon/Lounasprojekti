@@ -26,7 +26,7 @@ class Kyselyt
     }
     public List<Tuple<string, Action>> SelaaRavintolatValikko()
     {
-        var a = new TietojenNäyttäminen();
+        //var a = new TietojenNäyttäminen();
         //Selaa ravintolat ja näytä ilmoittautuneet syömään
         // lisätään where ehto näyttämään vain tälle päivälle
         List<Tuple<string, Action>> map = new List<Tuple<string, Action>>();
@@ -34,14 +34,14 @@ class Kyselyt
                       select i;
         foreach (var item in kysely)
         {
-            map.Add(Tuple.Create<string, Action>(item.RavintolanNimi, () => a.NäytäRavintolanTiedot(HaeRavintolanTiedot(item.RavintolaId))));
+            map.Add(Tuple.Create<string, Action>(item.RavintolanNimi, () => TietojenNäyttäminen.NäytäRavintolanTiedot(HaeRavintolanTiedot(item.RavintolaId))));
         }
         return map;
     }
 
     public List<Tuple<string, Action>> SelaaRavintolatValikko(ConsoleMenu con)
     {
-        var a = new TietojenNäyttäminen();
+        //var a = new TietojenNäyttäminen();
         //Selaa ravintolat ja näytä ilmoittautuneet syömään
         // lisätään where ehto näyttämään vain tälle päivälle
         List<Tuple<string, Action>> map = new List<Tuple<string, Action>>();
@@ -49,7 +49,7 @@ class Kyselyt
                      select i;
         foreach (var item in kysely)
         {
-            map.Add(Tuple.Create<string, Action>(item.RavintolanNimi, () => a.NäytäRavintolanTiedot(HaeRavintolanTiedot(item.RavintolaId), con)));
+            map.Add(Tuple.Create<string, Action>(item.RavintolanNimi, () => TietojenNäyttäminen.NäytäRavintolanTiedot(HaeRavintolanTiedot(item.RavintolaId), con)));
         }
         return map;
     }
