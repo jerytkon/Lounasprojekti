@@ -1,180 +1,91 @@
 ﻿USE [master] 
-
 GO 
-
 drop database LounasDB
+GO
 
-go
 /****** Object:  Database [LounasDB]    Script Date: 27.6.2022  ******/ 
-
 CREATE DATABASE [LounasDB] 
-
 GO 
-
 USE [LounasDB] 
-
 GO 
 
-/****** Object:  Table [dbo].[Ravintola]    Script Date: 27.6.2022  ******/ 
-
- 
-
+/****** Object:  Table [dbo].[Ravintola]    Script Date: 27.6.2022  ******/
 SET ANSI_NULLS ON 
-
 GO 
-
 SET QUOTED_IDENTIFIER ON 
-
 GO 
-
 SET ANSI_PADDING ON 
-
 GO 
-
 CREATE TABLE [dbo].[Ravintola]( 
-
 [RavintolaID] INT PRIMARY KEY IDENTITY (1,1), 
-
 [RavintolanNimi] [varchar](50) NOT NULL,  
-
 [Osoite] [varchar](50) NULL, 
-
 [postinumero] [char](5) NULL, 
-
 [postitoimipaikka] [varchar](20) NULL, 
-
 [Verkkosivu] [varchar](30) NULL, 
-
 [Kategoria] [varchar](30) NULL) 
-
 GO 
-
- 
 
 /****** Object:  Table [dbo].[Käyttäjä]    Script Date: 27.6.2022  ******/ 
-
 SET ANSI_NULLS ON 
-
 GO 
-
 SET QUOTED_IDENTIFIER ON 
-
 GO 
-
 SET ANSI_PADDING ON 
-
 GO 
-
- 
 CREATE TABLE [dbo].[Käyttäjä]( 
-
 [KäyttäjäID] INT PRIMARY KEY IDENTITY (1,1), 
-
 [Käyttäjänimi] [varchar](50) NOT NULL,
 [OnAdmin] [int] DEFAULT 0
-
 ) 
-
- 
-
 GO 
-
- 
 
 /****** Object:  Table [dbo].[Arvio]    Script Date: 27.6.2022  ******/ 
-
 SET ANSI_NULLS ON 
-
 GO 
-
 SET QUOTED_IDENTIFIER ON 
-
 GO 
-
 SET ANSI_PADDING ON 
-
-GO 
-
+Go 
 CREATE TABLE [dbo].[Arvio]( 
-
 [ArvioID] [int] PRIMARY KEY IDENTITY (1,1),  
-
 [RavintolaID] [int]  FOREIGN KEY REFERENCES Ravintola(RavintolaID),  
-
 [KäyttäjäID] [int]  FOREIGN KEY REFERENCES Käyttäjä(KäyttäjäID),  
-
 [Päivämäärä] [DateTime] NULL, 
-
 [Arvosana] [int] NULL, 
-
-[Kommentti] [varchar](20) NULL) 
-
- 
-
+[Kommentti] [varchar](200) NULL) 
 GO 
 
-/****** Object:  Table [dbo].[Lounastapahtuma]    Script Date: 27.6.2022  ******/ 
-
- 
-
+/****** Object:  Table [dbo].[Lounastapahtuma]    Script Date: 27.6.2022  ******/  
 SET ANSI_NULLS ON 
-
 GO 
-
 SET QUOTED_IDENTIFIER ON 
-
 GO 
-
 CREATE TABLE [dbo].[Lounastapahtuma]( 
-
 [LounastapahtumaID] [int] PRIMARY KEY IDENTITY(1,1), 
-
 [RavintolaID] [int] FOREIGN KEY REFERENCES Ravintola(RavintolaID), 
-
 [Päivämäärä] [datetime] NOT NULL); 
-
- 
-
 GO 
 
 /****** Object:  Table [dbo].[Lounasseura]    Script Date: 27.6.2022  ******/ 
-
- 
-
 SET ANSI_NULLS ON 
-
 GO 
-
 SET QUOTED_IDENTIFIER ON 
-
 GO 
-
 SET ANSI_PADDING ON 
-
 GO 
-
 CREATE TABLE [dbo].[Lounasseura]( 
-
 [SeuraID] [int] PRIMARY KEY IDENTITY(1,1), 
-
 [LounastapahtumaID] [int] FOREIGN KEY REFERENCES Lounastapahtuma(LounastapahtumaID), 
-
 [KäyttäjäID] [int] FOREIGN KEY REFERENCES Käyttäjä(KäyttäjäID)); 
-
 GO 
-
 -----------------RAVINTOLA------------ 
 
 INSERT [dbo].[Ravintola] ([RavintolanNimi], [Osoite], [Postinumero], [postitoimipaikka], [Verkkosivu], [Kategoria]) VALUES (N'Factory', N'Keilaranta 4', N'00123', N'Espoo', N'www.factofy.fi', N'Lounasbuffet') 
-
 GO 
-
 INSERT [dbo].[Ravintola] ([RavintolanNimi], [Osoite], [Postinumero], [postitoimipaikka], [Verkkosivu], [Kategoria]) VALUES (N'Aasialainen vastapäätä', N'Keilaranta 5', N'00123', N'Espoo', N'www.nepalilaista.fi', N'Lounasbuffet') 
-
 GO 
-
 INSERT [dbo].[Ravintola] ([RavintolanNimi], [Osoite], [Postinumero], [postitoimipaikka], [Verkkosivu], [Kategoria]) VALUES (N'Pitsapaikka', N'Keilaranta 1', N'00123', N'Espoo', N'www.pitsaa.fi', N'pitsapaikka') 
-
 GO 
 
  
@@ -182,15 +93,12 @@ GO
 ------------------KÄYTTÄJÄ------------- 
 
 INSERT [dbo].[Käyttäjä] ([Käyttäjänimi]) VALUES ('JanneN') 
-
 GO 
 
 INSERT [dbo].[Käyttäjä] ([Käyttäjänimi]) VALUES ('KaisaR') 
-
 GO 
 
 INSERT [dbo].[Käyttäjä] ([Käyttäjänimi]) VALUES ('JereR') 
-
 GO 
 
  
@@ -198,15 +106,12 @@ GO
 ------------------ARVIO------------- 
 
 INSERT [dbo].[Arvio] ([RavintolaID], [KäyttäjäID], [Päivämäärä], [Arvosana], [Kommentti]) VALUES (1, 1, GETDATE(), 5, 'Tosi hyvää') 
-
 GO 
 
 INSERT [dbo].[Arvio] ([RavintolaID], [KäyttäjäID], [Päivämäärä], [Arvosana], [Kommentti]) VALUES (1, 2, GETDATE(), 3, 'Ei niin hyvää') 
-
 GO 
 
 INSERT [dbo].[Arvio] ([RavintolaID], [KäyttäjäID], [Päivämäärä], [Arvosana], [Kommentti]) VALUES (1, 3, GETDATE(), 1, 'Nyt oli jo karmeaa') 
-
 GO 
 
  
@@ -214,15 +119,12 @@ GO
 ----------------LOUNASTAPAHTUMA------------------- 
 
 INSERT [dbo].[Lounastapahtuma] ([RavintolaID], [Päivämäärä]) VALUES (1, GETDATE()) 
-
 GO 
 
 INSERT [dbo].[Lounastapahtuma] ([RavintolaID], [Päivämäärä]) VALUES (2, GETDATE()) 
-
 GO 
 
 INSERT [dbo].[Lounastapahtuma] ([RavintolaID], [Päivämäärä]) VALUES (3, GETDATE()) 
-
 GO 
 
  
@@ -230,27 +132,21 @@ GO
 ------------------LOUNASSEURA------------- 
 
 INSERT [dbo].[Lounasseura] ([LounastapahtumaID], [KäyttäjäID]) VALUES (1, 1) 
-
 GO 
 
 INSERT [dbo].[Lounasseura] ([LounastapahtumaID], [KäyttäjäID]) VALUES (1, 2) 
-
 GO 
 
 INSERT [dbo].[Lounasseura] ([LounastapahtumaID], [KäyttäjäID]) VALUES (2, 3) 
-
 GO 
 
 INSERT [dbo].[Lounasseura] ([LounastapahtumaID], [KäyttäjäID]) VALUES (2, 1) 
-
 GO 
 
 INSERT [dbo].[Lounasseura] ([LounastapahtumaID], [KäyttäjäID]) VALUES (3, 2) 
-
 GO 
 
 INSERT [dbo].[Lounasseura] ([LounastapahtumaID], [KäyttäjäID]) VALUES (3, 3) 
-
 GO 
 
 SELECT *

@@ -54,7 +54,6 @@ var ravintolatMenu = new ConsoleMenu(args, level: 1)
 
 var käyttäjäMenu = new ConsoleMenu(args, level: 0)
   .Add("Näytä ravintolat", ravintolatMenu.Show)
-  .Add("Sub", ravintolatMenu.Show)
   .Add("Change me", (thisMenu) => thisMenu.CurrentItem.Name = "I am changed!")
   .Add("Close", ConsoleMenu.Close)
   //.Add("Action then Close", (thisMenu) => { SomeAction("Close"); thisMenu.CloseMenu(); })
@@ -84,7 +83,8 @@ var adminMenu = new ConsoleMenu(args, level: 0)
       config.EnableBreadcrumb = true;
   });
 
-käyttäjäMenu.Show();
+//käyttäjäMenu.Show();
+adminMenu.Show();
 
 
 
