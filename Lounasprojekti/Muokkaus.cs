@@ -198,4 +198,15 @@ class Muokkaus
         IlmoittauduLounaalle(kysely, käyttäjäId);
 
 }
+
+    public void LisääUusiKäyttäjä(string käyttäjänimi)
+    {
+        var uusi = new Käyttäjä()
+        {
+            Käyttäjänimi = käyttäjänimi
+        };
+        db.Käyttäjäs.Add(uusi);
+        db.SaveChanges();
+    }
+
 }

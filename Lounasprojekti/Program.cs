@@ -7,6 +7,12 @@ using Lounasprojekti;
 using ConsoleTools;
 using Lounasprojekti.Models;
 
+
+
+var kirjautuminen = new Kirjautuminen();
+kirjautuminen.Kirjaudu();
+
+
 var a = new Kyselyt();
 var b = new Muokkaus();
 //var c = new TietojenNäyttäminen();
@@ -19,8 +25,8 @@ var b = new Muokkaus();
 //b.LisääArvio(2, 1, 4, "Olipas hyvää.");
 
 var ravintolaSubMenu = new ConsoleMenu(args, level: 2)
-    .Add("Ilmoittaudu lounasseuraksi", () => b.IlmoittauduLounaalle(TietojenNäyttäminen.RavintolaID, 2, DateTime.Today.AddDays(1)))
-    .Add("Arvioi lounasravintola", () => b.LisääArvio( TietojenNäyttäminen.RavintolaID, 2))
+    .Add("Ilmoittaudu lounasseuraksi", () => b.IlmoittauduLounaalle(TietojenNäyttäminen.RavintolaID, kirjautuminen.KäyttäjäId, DateTime.Today.AddDays(1)))
+    .Add("Arvioi lounasravintola", () => b.LisääArvio(TietojenNäyttäminen.RavintolaID, kirjautuminen.KäyttäjäId))
   //.Add("Sub_One",() => NäytäRavintolat(a.SelaaRavintolat()))
   .Add("Sub_Close", ConsoleMenu.Close)
   .Configure(config =>
@@ -34,7 +40,7 @@ var ravintolaSubMenu = new ConsoleMenu(args, level: 2)
 
 var ravintolatMenu = new ConsoleMenu(args, level: 1)
     .AddRange(a.SelaaRavintolatValikko(ravintolaSubMenu))
-   
+
   //.Add("Sub_One",() => NäytäRavintolat(a.SelaaRavintolat()))
   .Add("Sub_Close", ConsoleMenu.Close)
   .Configure(config =>
@@ -81,24 +87,68 @@ var adminMenu = new ConsoleMenu(args, level: 0)
 käyttäjäMenu.Show();
 
 
+
 class Kirjautuminen
 {
     LounasDBContext db = new LounasDBContext();
-    public int KäyttäjäId { get; set; }
+    public int KäyttäjäId { get; set; } = 0;
     public string KäyttäjäNimi { get; set; }
+    public bool OnAdmin { get; set; }
+    Muokkaus b = new Muokkaus();
     public void Kirjaudu()
     {
-        Console.Write("Anna käyttäjänimi");
-        KäyttäjäNimi = Console.ReadLine();
-
-        var nimiOlemassa = (from i in db.Käyttäjäs
-                           where i.Käyttäjänimi == KäyttäjäNimi
-                           select i.KäyttäjäId).FirstOrDefault();
-        if (nimiOlemassa == 0)
+        while (KäyttäjäId == 0)
         {
+            if (KäyttäjäNimi == null)
+            {
+                Console.Write("Anna käyttäjänimi");
+                KäyttäjäNimi = Console.ReadLine();
+            }
 
+            KäyttäjäId = (from i in db.Käyttäjäs
+                          where i.Käyttäjänimi == KäyttäjäNimi
+                          select i.KäyttäjäId).FirstOrDefault();
+            if (KäyttäjäId == 0)
+            {
+                
+                Console.WriteLine($"Luodaanko uusi käyttäjä nimellä{KäyttäjäNimi}");
+                Console.WriteLine("Paina Y/N");
+                if (Console.ReadKey().Key == ConsoleKey.Y)
+                    b.LisääUusiKäyttäjä(KäyttäjäNimi);
+                if (Console.ReadKey().Key == ConsoleKey.N)
+                {
+                    continue;
+                }
+
+
+                //var kylläei = new ConsoleMenu();
+                
+                //kylläei.Add("Kyllä", () => b.LisääUusiKäyttäjä(KäyttäjäNimi));
+                //kylläei.Add("Ei", () => KäyttäjäNimi = null)
+                //.Configure(config =>
+                // {
+                //     config.Selector = "--> ";
+                //     config.EnableFilter = false;
+                //     config.Title = "Main menu";
+                //     config.EnableWriteTitle = true;
+                //     config.EnableBreadcrumb = true;
+                // });
+                //kylläei.Show();
+                //if (KäyttäjäNimi == null)
+                //{
+                //    continue;
+                //}
+
+
+            }
         }
-
     }
+
+    //public bool OnAdmin(int käyttäjäId)
+    //{
+    //    var admin = from i in 
+
+    //}
+}
 
 
