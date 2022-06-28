@@ -18,9 +18,23 @@ var c = new TietojenNäyttäminen();
 
 //b.LisääArvio(2, 1, 4, "Olipas hyvää.");
 
+var subMenu2 = new ConsoleMenu(args, level: 2)
+    .Add("Ilmoittaudu lounasseuraksi", () => b.IlmoittauduLounaalle(c.RavintolaNimi, 1))
+    .Add("Arvioi lounasravintola", () => b.LisääArvio(c.RavintolaID, 1))
+  //.Add("Sub_One",() => NäytäRavintolat(a.SelaaRavintolat()))
+  .Add("Sub_Close", ConsoleMenu.Close)
+  .Configure(config =>
+  {
+      config.Selector = "--> ";
+      config.EnableFilter = false;
+      config.Title = "Submenu";
+      config.EnableBreadcrumb = true;
+      config.WriteBreadcrumbAction = titles => Console.WriteLine(string.Join(" / ", titles));
+  });
 
 var subMenu = new ConsoleMenu(args, level: 1)
-    .AddRange(a.SelaaRavintolatValikko())
+    .AddRange(a.SelaaRavintolatValikko(subMenu2))
+   
   //.Add("Sub_One",() => NäytäRavintolat(a.SelaaRavintolat()))
   .Add("Sub_Close", ConsoleMenu.Close)
   .Configure(config =>
@@ -49,3 +63,6 @@ var menu = new ConsoleMenu(args, level: 0)
   });
 
 menu.Show();
+
+
+

@@ -1,4 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using ConsoleTools;
 using Lounasprojekti.Models;
 
 class Kyselyt
@@ -34,6 +35,21 @@ class Kyselyt
         foreach (var item in kysely)
         {
             map.Add(Tuple.Create<string, Action>(item.RavintolanNimi, () => a.NäytäRavintolanTiedot(HaeRavintolanTiedot(item.RavintolaId))));
+        }
+        return map;
+    }
+
+    public List<Tuple<string, Action>> SelaaRavintolatValikko(ConsoleMenu con)
+    {
+        var a = new TietojenNäyttäminen();
+        //Selaa ravintolat ja näytä ilmoittautuneet syömään
+        // lisätään where ehto näyttämään vain tälle päivälle
+        List<Tuple<string, Action>> map = new List<Tuple<string, Action>>();
+        var kysely = from i in db.Ravintolas
+                     select i;
+        foreach (var item in kysely)
+        {
+            map.Add(Tuple.Create<string, Action>(item.RavintolanNimi, () => a.NäytäRavintolanTiedot(HaeRavintolanTiedot(item.RavintolaId), con)));
         }
         return map;
     }
