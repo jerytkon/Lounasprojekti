@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Lounasprojekti;
 using ConsoleTools;
-
+using Lounasprojekti.Models;
 
 var a = new Kyselyt();
 var b = new Muokkaus();
@@ -80,5 +80,25 @@ var adminMenu = new ConsoleMenu(args, level: 0)
 
 käyttäjäMenu.Show();
 
+
+class Kirjautuminen
+{
+    LounasDBContext db = new LounasDBContext();
+    public int KäyttäjäId { get; set; }
+    public string KäyttäjäNimi { get; set; }
+    public void Kirjaudu()
+    {
+        Console.Write("Anna käyttäjänimi");
+        KäyttäjäNimi = Console.ReadLine();
+
+        var nimiOlemassa = (from i in db.Käyttäjäs
+                           where i.Käyttäjänimi == KäyttäjäNimi
+                           select i.KäyttäjäId).FirstOrDefault();
+        if (nimiOlemassa == 0)
+        {
+
+        }
+
+    }
 
 
