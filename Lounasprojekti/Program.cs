@@ -8,7 +8,6 @@ using ConsoleTools;
 using Lounasprojekti.Models;
 
 
-
 var kirjautuminen = new Kirjautuminen();
 kirjautuminen.Kirjaudu();
 
@@ -83,8 +82,20 @@ var adminMenu = new ConsoleMenu(args, level: 0)
       config.EnableBreadcrumb = true;
   });
 
-//käyttäjäMenu.Show();
+
+
+if (kirjautuminen.OnAdmin == 0)
+{
+käyttäjäMenu.Show();
+}
+
+if (kirjautuminen.OnAdmin == 1)
+{
 adminMenu.Show();
+}
+
+
+
 
 
 
@@ -93,7 +104,9 @@ class Kirjautuminen
     LounasDBContext db = new LounasDBContext();
     public int KäyttäjäId { get; set; } = 0;
     public string KäyttäjäNimi { get; set; }
-    public bool OnAdmin { get; set; }
+
+    public int OnAdmin { get; set; }
+
     Muokkaus b = new Muokkaus();
     public void Kirjaudu()
     {
@@ -108,6 +121,9 @@ class Kirjautuminen
             KäyttäjäId = (from i in db.Käyttäjäs
                           where i.Käyttäjänimi == KäyttäjäNimi
                           select i.KäyttäjäId).FirstOrDefault();
+
+            OnAdmin = Convert.ToInt32(db.Käyttäjäs.Find(KäyttäjäId).OnAdmin);
+
             if (KäyttäjäId == 0)
             {
                 

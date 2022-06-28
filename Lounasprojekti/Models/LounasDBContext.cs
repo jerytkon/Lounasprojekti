@@ -52,12 +52,12 @@ namespace Lounasprojekti.Models
                 entity.HasOne(d => d.Käyttäjä)
                     .WithMany(p => p.Arvios)
                     .HasForeignKey(d => d.KäyttäjäId)
-                    .HasConstraintName("FK__Arvio__KäyttäjäI__29572725");
+                    .HasConstraintName("FK__Arvio__KäyttäjäI__2A4B4B5E");
 
                 entity.HasOne(d => d.Ravintola)
                     .WithMany(p => p.Arvios)
                     .HasForeignKey(d => d.RavintolaId)
-                    .HasConstraintName("FK__Arvio__Ravintola__286302EC");
+                    .HasConstraintName("FK__Arvio__Ravintola__29572725");
             });
 
             modelBuilder.Entity<Käyttäjä>(entity =>
@@ -69,12 +69,14 @@ namespace Lounasprojekti.Models
                 entity.Property(e => e.Käyttäjänimi)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.OnAdmin).HasDefaultValueSql("((0))");
             });
 
             modelBuilder.Entity<Lounasseura>(entity =>
             {
                 entity.HasKey(e => e.SeuraId)
-                    .HasName("PK__Lounasse__2579DBD056CC7F93");
+                    .HasName("PK__Lounasse__2579DBD0D3D003D8");
 
                 entity.ToTable("Lounasseura");
 
@@ -87,12 +89,12 @@ namespace Lounasprojekti.Models
                 entity.HasOne(d => d.Käyttäjä)
                     .WithMany(p => p.Lounasseuras)
                     .HasForeignKey(d => d.KäyttäjäId)
-                    .HasConstraintName("FK__Lounasseu__Käytt__300424B4");
+                    .HasConstraintName("FK__Lounasseu__Käytt__30F848ED");
 
                 entity.HasOne(d => d.Lounastapahtuma)
                     .WithMany(p => p.Lounasseuras)
                     .HasForeignKey(d => d.LounastapahtumaId)
-                    .HasConstraintName("FK__Lounasseu__Louna__2F10007B");
+                    .HasConstraintName("FK__Lounasseu__Louna__300424B4");
             });
 
             modelBuilder.Entity<Lounastapahtuma>(entity =>
@@ -108,7 +110,7 @@ namespace Lounasprojekti.Models
                 entity.HasOne(d => d.Ravintola)
                     .WithMany(p => p.Lounastapahtumas)
                     .HasForeignKey(d => d.RavintolaId)
-                    .HasConstraintName("FK__Lounastap__Ravin__2C3393D0");
+                    .HasConstraintName("FK__Lounastap__Ravin__2D27B809");
             });
 
             modelBuilder.Entity<Ravintola>(entity =>
