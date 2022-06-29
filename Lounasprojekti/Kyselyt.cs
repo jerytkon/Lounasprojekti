@@ -14,13 +14,15 @@ class Kyselyt
         // lisätään where ehto näyttämään vain tälle päivälle
         
         Dictionary<string, int> ruokailijatLkm = new Dictionary<string, int>();
-        var newDateTime = DateTime.Today.AddDays(-1).Date.ToString("yyyy-MM-dd");
+        var newDateTime = DateTime.Today.Date.ToString("yyyy-MM-dd");
         var kysely = (from i in db.VSyömäänRekisteröityneets
                       where i.Päivämäärä.ToString() == newDateTime || i.Päivämäärä == null
                       select i);
         
         foreach (var item in kysely)
         {
+            if (ruokailijatLkm.ContainsKey(item.RavintolanNimi))
+                continue;
             ruokailijatLkm.Add(item.RavintolanNimi, Convert.ToInt32(item.SyömäänTulijat));
         }
 

@@ -9,7 +9,7 @@ class Valikot
         var kyselyObjekti = new Kyselyt();
         var muokkausObjekti = new Muokkaus();
         var ravintolaSubMenu = new ConsoleMenu(args, level: 2)
-            .Add("Ilmoittaudu lounasseuraksi", () => muokkausObjekti.IlmoittauduLounaalle(TietojenNäyttäminen.RavintolaID, kirjautuminen.KäyttäjäId, DateTime.Today.AddDays(1)))
+            .Add("Ilmoittaudu lounasseuraksi", () => muokkausObjekti.IlmoittauduLounaalle(TietojenNäyttäminen.RavintolaID, kirjautuminen.KäyttäjäId, DateTime.Today))
             .Add("Arvioi lounasravintola", () => muokkausObjekti.LisääArvio(TietojenNäyttäminen.RavintolaID, kirjautuminen.KäyttäjäId))
             .Add("Sub_Close", ConsoleMenu.Close)
             .Configure(config =>
