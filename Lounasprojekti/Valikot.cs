@@ -72,12 +72,32 @@ class Valikot
       });
         return ravintolatMenu;
     }
-    public ConsoleMenu käyttäjäMenu(string[] args, ConsoleMenu ravintolatMenu, ConsoleMenu kommentitMenu)
+
+    public ConsoleMenu top3Menu(string[] args, Kirjautuminen kirjautuminen, ConsoleMenu ravintolatSubMenu)
+    {
+        var kyselyObjekti = new Kyselyt();
+        var muokkausObjekti = new Muokkaus();
+        var top3Menu = new ConsoleMenu(args, level: 1)
+          .AddRange(kyselyObjekti.SelaaTop3RavintolatValikko(ravintolatSubMenu))
+          .Add("Sub_Close", ConsoleMenu.Close)
+          .Configure(config =>
+          {
+              config.Selector = "--> ";
+              config.EnableFilter = false;
+              config.Title = "Submenu";
+              config.EnableBreadcrumb = true;
+              config.WriteBreadcrumbAction = titles => Console.WriteLine(string.Join(" / ", titles));
+          });
+        return top3Menu;
+    }
+
+    public ConsoleMenu käyttäjäMenu(string[] args, ConsoleMenu ravintolatMenu, ConsoleMenu kommentitMenu, ConsoleMenu top3Menu)
     {
         var kyselyObjekti = new Kyselyt();
         var muokkausObjekti = new Muokkaus();
         var käyttäjäMenu = new ConsoleMenu(args, level: 0)
-          .Add("Näytä ravintolat", ravintolatMenu.Show)
+          .Add("Näytä kaikki ravintolat", ravintolatMenu.Show)
+          .Add("Näytä 3 parhaiten arvosteltua ravintolaa", top3Menu.Show)
           .Add("Näytä kommentit", () => kommentitMenu.Show())
           .Add("Change me", (thisMenu) => thisMenu.CurrentItem.Name = "I am changed!")
           //.Add("Close", ConsoleMenu.Close)

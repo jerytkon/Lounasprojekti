@@ -130,4 +130,44 @@ class Kyselyt
         }
         return ruokailijatLkm;
     }
+
+    public List<Tuple<string, Action>> SelaaTop3RavintolatValikko(ConsoleMenu con)
+    {
+        // Luodaan sanakirja, jossa ravintolat ja päivän ruokailijoiden lukumäärä
+        var ruokailijatLkm = HaeRuokailijatLkm();
+
+        // Haetaan ravintoloiden arvosteluiden keskiarvot
+        var kysely = (from i in db.Ravintolas
+                      select new
+                      {
+                          RavintolanNimi = i.RavintolanNimi,
+                          RavintolaId = i.RavintolaId,
+                          Keskiarvo = (from j in db.Arvios
+                                       where j.RavintolaId == i.RavintolaId
+                                       select j.Arvosana).Average()
+                      });
+
+        var järjestetty = (from i in kysely
+                           orderby i.Keskiarvo descending
+                           select i).Take(3);
+
+
+        // Luodaan Tuple-lista valikon AddRange()-metodia varten:
+        //      valikon alaotsikko (string): Ravintolan nimi, ruokailijoiden lukumäärä sekä keskiarvo arvosteluista
+        //      Action: Näyttää ravintolan tiedot
+        List<Tuple<string, Action>> map = new List<Tuple<string, Action>>();
+        foreach (var r in järjestetty)
+        {
+            // Luodaan string, jossa ravintolan nimi ja ruokailijoiden lukumäärä
+            var ruokailijat = ruokailijatLkm[r.RavintolanNimi] > 0 ? $"{ruokailijatLkm[r.RavintolanNimi]} ruokailija{(ruokailijatLkm[r.RavintolanNimi] == 1 ? "" : "a")} tänään" : "";
+            var valikkoNimi = $"{r.RavintolanNimi.PadRight(30)} Keskiarvo: {r.Keskiarvo.ToString().PadRight(10)} {ruokailijat}";
+
+            // Lisätään listaan valikon alaotsikko ja Action
+            map.Add(Tuple.Create<string, Action>(valikkoNimi, () => TietojenNäyttäminen.NäytäRavintolanTiedot(HaeRavintolanTiedot(r.RavintolaId), con)));
+        }
+
+        return map;
+    }
+
+
 }
