@@ -84,9 +84,12 @@ GO
 create view vSyömäänRekisteröityneet as
 select Ravintola.RavintolanNimi, count(Lounastapahtuma.LounastapahtumaID) SyömäänTulijat, Convert(date, Lounastapahtuma.Päivämäärä, 101) as Päivämäärä
 from dbo.Ravintola
-left join Lounastapahtuma on Ravintola.RavintolaID = Lounastapahtuma.RavintolaID
-left join Lounasseura on Lounastapahtuma.LounastapahtumaID = Lounasseura.LounastapahtumaID
+join Lounastapahtuma on Ravintola.RavintolaID = Lounastapahtuma.RavintolaID
+join Lounasseura on Lounastapahtuma.LounastapahtumaID = Lounasseura.LounastapahtumaID
 group by Ravintola.RavintolanNimi, Lounastapahtuma.Päivämäärä
+UNION ALL
+select Ravintola.RavintolanNimi, 0 as SyömäänTulijat, null as Päivämäärä
+from Ravintola
 GO
 -----------------RAVINTOLA------------ 
 
