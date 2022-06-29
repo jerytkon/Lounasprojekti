@@ -57,6 +57,17 @@ class Kyselyt
         return kysely;
     }
 
+    public List<string> HaeRuokailijatTänään(int ravintolaID)
+    {
+        var newDateTime = DateTime.Today.Date.ToString("yyyy-MM-dd");
+        var kysely = (from i in db.Lounastapahtumas
+                      join i2 in db.Lounasseuras on i.LounastapahtumaId equals i2.LounastapahtumaId
+                      join i3 in db.Käyttäjäs on i2.KäyttäjäId equals i3.KäyttäjäId
+                      where i.RavintolaId == ravintolaID && i.Päivämäärä.Date.ToString() == newDateTime
+                      select i3.Käyttäjänimi).ToList();
+        return kysely;
+    }
+
     public Dictionary<string, int> palautaRuokailijatLkm()
     {
         Dictionary<string, int> ruokailijatLkm = new Dictionary<string, int>();

@@ -11,6 +11,7 @@ class Valikot
         var ravintolaSubMenu = new ConsoleMenu(args, level: 2)
             .Add("Ilmoittaudu lounasseuraksi", () => muokkausObjekti.IlmoittauduLounaalle(TietojenNäyttäminen.RavintolaID, kirjautuminen.KäyttäjäId, DateTime.Today))
             .Add("Arvioi lounasravintola", () => muokkausObjekti.LisääArvio(TietojenNäyttäminen.RavintolaID, kirjautuminen.KäyttäjäId))
+            .Add("Näytä ruokailijat", () => TietojenNäyttäminen.NäytäRavintolanRuokailijat(TietojenNäyttäminen.RavintolaID))
             .Add("Sub_Close", ConsoleMenu.Close)
             .Configure(config =>
     {

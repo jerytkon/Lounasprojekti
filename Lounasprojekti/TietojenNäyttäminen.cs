@@ -40,5 +40,17 @@ static class TietojenNäyttäminen
 
     }
 
-    public static void NäytäRavintolanRuokailijat() { }
+    public static void NäytäRavintolanRuokailijat(int RavintolaID)
+    {
+        Kyselyt kysely = new Kyselyt();
+        var Ruokailijat = kysely.HaeRuokailijatTänään(RavintolaID);
+        if (Ruokailijat.Count == 0)
+            Console.WriteLine("Ei ruokailijoita");
+        else
+            foreach (var ruokailija in Ruokailijat)
+            {
+                Console.WriteLine(ruokailija);
+            }
+        Console.ReadLine();
+    }
 }
