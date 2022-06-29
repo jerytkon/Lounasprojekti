@@ -86,7 +86,7 @@ select Ravintola.RavintolanNimi, count(Lounastapahtuma.LounastapahtumaID) Syöm�
 from dbo.Ravintola
 join Lounastapahtuma on Ravintola.RavintolaID = Lounastapahtuma.RavintolaID
 join Lounasseura on Lounastapahtuma.LounastapahtumaID = Lounasseura.LounastapahtumaID
-group by Ravintola.RavintolanNimi, Lounastapahtuma.Päivämäärä
+group by Ravintola.RavintolanNimi, Convert(date, Lounastapahtuma.Päivämäärä, 101)
 UNION ALL
 select Ravintola.RavintolanNimi, 0 as SyömäänTulijat, null as Päivämäärä
 from Ravintola
