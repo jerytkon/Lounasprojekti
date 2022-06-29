@@ -21,6 +21,7 @@ namespace Lounasprojekti.Models
         public virtual DbSet<Lounasseura> Lounasseuras { get; set; } = null!;
         public virtual DbSet<Lounastapahtuma> Lounastapahtumas { get; set; } = null!;
         public virtual DbSet<Ravintola> Ravintolas { get; set; } = null!;
+        public virtual DbSet<VSyömäänRekisteröityneet> VSyömäänRekisteröityneets { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -40,7 +41,7 @@ namespace Lounasprojekti.Models
                 entity.Property(e => e.ArvioId).HasColumnName("ArvioID");
 
                 entity.Property(e => e.Kommentti)
-                    .HasMaxLength(20)
+                    .HasMaxLength(200)
                     .IsUnicode(false);
 
                 entity.Property(e => e.KäyttäjäId).HasColumnName("KäyttäjäID");
@@ -76,7 +77,7 @@ namespace Lounasprojekti.Models
             modelBuilder.Entity<Lounasseura>(entity =>
             {
                 entity.HasKey(e => e.SeuraId)
-                    .HasName("PK__Lounasse__2579DBD0D3D003D8");
+                    .HasName("PK__Lounasse__2579DBD0B74F9A73");
 
                 entity.ToTable("Lounasseura");
 
@@ -144,6 +145,19 @@ namespace Lounasprojekti.Models
 
                 entity.Property(e => e.Verkkosivu)
                     .HasMaxLength(30)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<VSyömäänRekisteröityneet>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("vSyömäänRekisteröityneet");
+
+                entity.Property(e => e.Päivämäärä).HasColumnType("date");
+
+                entity.Property(e => e.RavintolanNimi)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
             });
 

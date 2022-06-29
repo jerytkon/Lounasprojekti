@@ -79,6 +79,15 @@ CREATE TABLE [dbo].[Lounasseura](
 [LounastapahtumaID] [int] FOREIGN KEY REFERENCES Lounastapahtuma(LounastapahtumaID), 
 [KäyttäjäID] [int] FOREIGN KEY REFERENCES Käyttäjä(KäyttäjäID)); 
 GO 
+
+/****** Object:  view [dbo].[vSyömäänRekisteröityneet]    Script Date: 29.6.2022  ******/ 
+create view vSyömäänRekisteröityneet as
+select Ravintola.RavintolanNimi, count(Lounastapahtuma.LounastapahtumaID) SyömäänTulijat, Convert(date, Lounastapahtuma.Päivämäärä, 101) as Päivämäärä
+from dbo.Ravintola
+left join Lounastapahtuma on Ravintola.RavintolaID = Lounastapahtuma.RavintolaID
+left join Lounasseura on Lounastapahtuma.LounastapahtumaID = Lounasseura.LounastapahtumaID
+group by Ravintola.RavintolanNimi, Lounastapahtuma.Päivämäärä
+GO
 -----------------RAVINTOLA------------ 
 
 INSERT [dbo].[Ravintola] ([RavintolanNimi], [Osoite], [Postinumero], [postitoimipaikka], [Verkkosivu], [Kategoria]) VALUES (N'Factory', N'Keilaranta 4', N'00123', N'Espoo', N'www.factofy.fi', N'Lounasbuffet') 

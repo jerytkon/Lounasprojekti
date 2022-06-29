@@ -6,10 +6,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Lounasprojekti;
 using ConsoleTools;
 
+var a = DateTime.Today.Date.ToString();
+var b = DateTime.Today.Date.ToString("yyyy-MM-dd");
 var valikot = new Valikot();
 var kirjautuminen = new Kirjautuminen();
 var ravintolatSubMenu = valikot.ravintolaSubMenu(args, kirjautuminen);
 var ravintolatMenu = valikot.ravintolatMenu(args, kirjautuminen, ravintolatSubMenu);
+
 
 kirjautuminen.Kirjaudu();
 

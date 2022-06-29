@@ -1,10 +1,12 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using ConsoleTools;
 using Lounasprojekti.Models;
+using System.Globalization;
 
 class Kyselyt
 {
     LounasDBContext db = new LounasDBContext();
+    CultureInfo culture = CultureInfo.InvariantCulture;
 
     public List<Tuple<string, Action>> SelaaRavintolatValikko(ConsoleMenu con)
     {
@@ -12,16 +14,14 @@ class Kyselyt
         // lisätään where ehto näyttämään vain tälle päivälle
         
         Dictionary<string, int> ruokailijatLkm = new Dictionary<string, int>();
-
-        var kysely = (from i in db.Ravintolas
-                      join i2 in db.Lounastapahtumas on i.RavintolaId equals i2.RavintolaId
-                      join i3 in db.Lounasseuras on i2.LounastapahtumaId equals i3.LounastapahtumaId
-                      group i by i.RavintolanNimi into g
-                      select new { Ravintolanimi = g.Key, Count = g.Count() }).ToList();
+        var newDateTime = DateTime.Today.AddDays(-1).Date.ToString("yyyy-MM-dd");
+        var kysely = (from i in db.VSyömäänRekisteröityneets
+                      where i.Päivämäärä.ToString() == newDateTime || i.Päivämäärä == null
+                      select i);
         
         foreach (var item in kysely)
         {
-            ruokailijatLkm.Add(item.Ravintolanimi, item.Count);
+            ruokailijatLkm.Add(item.RavintolanNimi, Convert.ToInt32(item.SyömäänTulijat));
         }
 
         List<Tuple<string, Action>> map = new List<Tuple<string, Action>>();       
