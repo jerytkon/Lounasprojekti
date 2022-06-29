@@ -9,7 +9,19 @@ class Muokkaus
 
     public void LisääArvio(int ravintolaId, int käyttäjäId, int arvosana, string kommentti = "")
     {
-        // lisää tarkistukset: arvosana 1-5, kommentti.Length < 200
+
+        if (arvosana < 1 || arvosana > 5)
+        {
+            Console.WriteLine("Arvosanan tulee olla väliltä 1-5, yritä uudelleen");
+            Console.ReadLine();
+            return;
+        }
+        if (kommentti.Length > 200)
+        {
+            Console.WriteLine("Kommentin pituus max 200 merkkiä, yritä uudelleen");
+            Console.ReadLine();
+            return;
+        }
 
         var uusi = new Arvio()
         {
@@ -20,7 +32,6 @@ class Muokkaus
             Kommentti = kommentti,
         };
 
-        // lisää try catch
 
         db.Arvios.Add(uusi);
         db.SaveChanges();
@@ -30,12 +41,23 @@ class Muokkaus
 
     public void LisääArvio(int ravintolaId, int käyttäjäId)
     {
-        // lisää tarkistukset: arvosana 1-5, kommentti.Length < 200
+
         Console.Write($"Anna arvosana 1-5 ravintolalle:");
         var arvosana = int.Parse(Console.ReadLine());
+        if (arvosana < 1 || arvosana > 5)
+        {
+            Console.WriteLine("Arvosanan tulee olla väliltä 1-5, yritä uudelleen");
+            Console.ReadLine();
+            return;
+        }
         Console.Write("Anna kommentti ravintolalle:");
         var kommentti = Console.ReadLine();
-
+        if (kommentti.Length >= 200)
+        {
+            Console.WriteLine("Kommentin pituus max 200 merkkiä, yritä uudelleen");
+            Console.ReadLine();
+            return;
+        }
 
         var uusi = new Arvio()
         {
@@ -46,7 +68,6 @@ class Muokkaus
             Kommentti = kommentti,
         };
 
-        // lisää try catch
 
         db.Arvios.Add(uusi);
         db.SaveChanges();
@@ -55,7 +76,7 @@ class Muokkaus
     }
 
 
-    // Printtaukset kuntoon
+
     public void AloitaLounastapahtuma(int ravintolaId, int käyttäjäId)
     {
         var uusi = new Lounastapahtuma()
@@ -89,8 +110,7 @@ class Muokkaus
 
         db.Lounastapahtumas.Add(uusi);
         db.SaveChanges();
-        Console.WriteLine("Uusi lounastapahtuma luotu");
-        Console.ReadLine();
+
 
         var uusi2 = new Lounasseura()
         {
@@ -102,8 +122,6 @@ class Muokkaus
 
         db.Lounasseuras.Add(uusi2);
         db.SaveChanges();
-        Console.WriteLine("Sinut on lisätty lounaalle");
-        Console.ReadLine();
     }
 
     public void LisääRavintola()
@@ -143,8 +161,9 @@ class Muokkaus
         if (lounastapahtumaId == 0)
         {
             AloitaLounastapahtuma(ravintolaId, käyttäjäId);
-            Console.WriteLine("Uusi lounastapahtuma luotu");
+            Console.WriteLine("Lounastapahtuma luotu");
             Console.ReadLine();
+
         }
         else
         {
@@ -192,12 +211,12 @@ class Muokkaus
     public void IlmoittauduLounaalle(string ravintolanNimi, int käyttäjäId)
     {
         var kysely = (from i in db.Ravintolas
-                     where i.RavintolanNimi == ravintolanNimi
-                     select i.RavintolaId).FirstOrDefault();
+                      where i.RavintolanNimi == ravintolanNimi
+                      select i.RavintolaId).FirstOrDefault();
 
         IlmoittauduLounaalle(kysely, käyttäjäId);
 
-}
+    }
 
     public void LisääUusiKäyttäjä(string käyttäjänimi)
     {
@@ -208,5 +227,4 @@ class Muokkaus
         db.Käyttäjäs.Add(uusi);
         db.SaveChanges();
     }
-
 }
