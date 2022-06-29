@@ -9,7 +9,7 @@ class Kirjautuminen
 
     public int OnAdmin { get; set; }
 
-    Muokkaus b = new Muokkaus();
+    Muokkaus muokkausObjekti = new Muokkaus();
     public void Kirjaudu()
     {
         while (KäyttäjäId == 0)
@@ -23,50 +23,27 @@ class Kirjautuminen
             KäyttäjäId = (from i in db.Käyttäjäs
                           where i.Käyttäjänimi == KäyttäjäNimi
                           select i.KäyttäjäId).FirstOrDefault();
-
-            OnAdmin = Convert.ToInt32(db.Käyttäjäs.Find(KäyttäjäId).OnAdmin);
+            if (KäyttäjäId != 0)
+                OnAdmin = Convert.ToInt32(db.Käyttäjäs.Find(KäyttäjäId).OnAdmin);
 
             if (KäyttäjäId == 0)
             {
-                
                 Console.WriteLine($"Luodaanko uusi käyttäjä nimellä{KäyttäjäNimi}");
-                Console.WriteLine("Paina Y/N");
+                Console.WriteLine("Vastaa Y/N");
                 if (Console.ReadKey().Key == ConsoleKey.Y)
-                    b.LisääUusiKäyttäjä(KäyttäjäNimi);
+                    muokkausObjekti.LisääUusiKäyttäjä(KäyttäjäNimi);
                 if (Console.ReadKey().Key == ConsoleKey.N)
                 {
                     continue;
                 }
-
-
-                //var kylläei = new ConsoleMenu();
-                
-                //kylläei.Add("Kyllä", () => b.LisääUusiKäyttäjä(KäyttäjäNimi));
-                //kylläei.Add("Ei", () => KäyttäjäNimi = null)
-                //.Configure(config =>
-                // {
-                //     config.Selector = "--> ";
-                //     config.EnableFilter = false;
-                //     config.Title = "Main menu";
-                //     config.EnableWriteTitle = true;
-                //     config.EnableBreadcrumb = true;
-                // });
-                //kylläei.Show();
-                //if (KäyttäjäNimi == null)
-                //{
-                //    continue;
-                //}
-
-
+                else
+                {
+                    Console.WriteLine("Olet nyt kirjautunut. Paina enter");
+                    Console.ReadLine();
+                }
             }
         }
     }
-
-    //public bool OnAdmin(int käyttäjäId)
-    //{
-    //    var admin = from i in 
-
-    //}
 }
 
 
