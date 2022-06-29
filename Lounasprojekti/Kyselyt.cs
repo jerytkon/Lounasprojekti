@@ -6,53 +6,38 @@ class Kyselyt
 {
     LounasDBContext db = new LounasDBContext();
 
-
-    //Selaa ravintoloita eri parametreilla
-    public Dictionary<string, int> SelaaRavintolat()
+    public List<Tuple<string, Action>> SelaaRavintolatValikko(ConsoleMenu con)
     {
         //Selaa ravintolat ja näytä ilmoittautuneet syömään
         // lisätään where ehto näyttämään vain tälle päivälle
-        Dictionary<string, int> map = new Dictionary<string, int>();
+        
+        Dictionary<string, int> ruokailijatLkm = new Dictionary<string, int>();
+
         var kysely = (from i in db.Ravintolas
                       join i2 in db.Lounastapahtumas on i.RavintolaId equals i2.RavintolaId
                       join i3 in db.Lounasseuras on i2.LounastapahtumaId equals i3.LounastapahtumaId
                       group i by i.RavintolanNimi into g
                       select new { Ravintolanimi = g.Key, Count = g.Count() }).ToList();
+        
         foreach (var item in kysely)
         {
-            map.Add(item.Ravintolanimi, item.Count);
+            ruokailijatLkm.Add(item.Ravintolanimi, item.Count);
         }
-        return map;
-    }
-    public List<Tuple<string, Action>> SelaaRavintolatValikko()
-    {
-        //var a = new TietojenNäyttäminen();
-        //Selaa ravintolat ja näytä ilmoittautuneet syömään
-        // lisätään where ehto näyttämään vain tälle päivälle
-        List<Tuple<string, Action>> map = new List<Tuple<string, Action>>();
-        var kysely = from i in db.Ravintolas
-                      select i;
-        foreach (var item in kysely)
+
+        List<Tuple<string, Action>> map = new List<Tuple<string, Action>>();       
+        var kysely2 = from i in db.Ravintolas
+                     select i;
+        
+        foreach (var item in kysely2)
         {
-            map.Add(Tuple.Create<string, Action>(item.RavintolanNimi, () => TietojenNäyttäminen.NäytäRavintolanTiedot(HaeRavintolanTiedot(item.RavintolaId))));
+            var ruokailijat = ruokailijatLkm[item.RavintolanNimi] > 0 ? $"{ruokailijatLkm[item.RavintolanNimi]} ruokailija{(ruokailijatLkm[item.RavintolanNimi] == 1 ? "" : "a")} tänään" : "";
+            var valikkoNimi = $"{item.RavintolanNimi.PadRight(50)}{ruokailijat}";
+            map.Add(Tuple.Create<string, Action>(valikkoNimi, () => TietojenNäyttäminen.NäytäRavintolanTiedot(HaeRavintolanTiedot(item.RavintolaId), con)));
         }
+        
         return map;
     }
 
-    public List<Tuple<string, Action>> SelaaRavintolatValikko(ConsoleMenu con)
-    {
-        //var a = new TietojenNäyttäminen();
-        //Selaa ravintolat ja näytä ilmoittautuneet syömään
-        // lisätään where ehto näyttämään vain tälle päivälle
-        List<Tuple<string, Action>> map = new List<Tuple<string, Action>>();
-        var kysely = from i in db.Ravintolas
-                     select i;
-        foreach (var item in kysely)
-        {
-            map.Add(Tuple.Create<string, Action>(item.RavintolanNimi, () => TietojenNäyttäminen.NäytäRavintolanTiedot(HaeRavintolanTiedot(item.RavintolaId), con)));
-        }
-        return map;
-    }
     public List<string> HaeRavintolanTiedot(int ravintolaID)
     {
         // Lisää ravintolan kommentit listan loppuun
