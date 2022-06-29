@@ -10,22 +10,51 @@ class Kyselyt
 
     public List<Tuple<string, Action>> SelaaRavintolatValikko(ConsoleMenu con)
     {
-        //Selaa ravintolat ja näytä ilmoittautuneet syömään
-        // lisätään where ehto näyttämään vain tälle päivälle
+        // Luodaan sanakirja, jossa ravintolat ja ruokailijoiden lukumäärä
+        var ruokailijatLkm = HaeRuokailijatLkm();
 
-        var ruokailijatLkm = palautaRuokailijatLkm();
-
-        List<Tuple<string, Action>> map = new List<Tuple<string, Action>>();       
-        var kysely2 = from i in db.Ravintolas
+        var kysely = from i in db.Ravintolas
                      select i;
-        
-        foreach (var item in kysely2)
+
+        // Luodaan Tuple-lista valikon AddRange()-metodia varten:
+        //       valikon alaotsikko (string): Ravintolan nimi ja ruokailijoiden lukumäärä
+        //       Action: Näyttää ravintolan tiedot
+        List<Tuple<string, Action>> map = new List<Tuple<string, Action>>();
+        foreach (var r in kysely)
         {
-            var ruokailijat = ruokailijatLkm[item.RavintolanNimi] > 0 ? $"{ruokailijatLkm[item.RavintolanNimi]} ruokailija{(ruokailijatLkm[item.RavintolanNimi] == 1 ? "" : "a")} tänään" : "";
-            var valikkoNimi = $"{item.RavintolanNimi.PadRight(50)}{ruokailijat}";
-            map.Add(Tuple.Create<string, Action>(valikkoNimi, () => TietojenNäyttäminen.NäytäRavintolanTiedot(HaeRavintolanTiedot(item.RavintolaId), con)));
+            // Luodaan string, jossa ravintolan nimi ja ruokailijoiden lukumäärä
+            var ruokailijat = ruokailijatLkm[r.RavintolanNimi] > 0 ? $"{ruokailijatLkm[r.RavintolanNimi]} ruokailija{(ruokailijatLkm[r.RavintolanNimi] == 1 ? "" : "a")} tänään" : "";
+            var valikkoNimi = $"{r.RavintolanNimi.PadRight(50)}{ruokailijat}";
+
+            // Lisätään listaan valikon alaotsikko ja Action
+            map.Add(Tuple.Create<string, Action>(valikkoNimi, () => TietojenNäyttäminen.NäytäRavintolanTiedot(HaeRavintolanTiedot(r.RavintolaId), con)));
         }
-        
+
+        return map;
+    }
+
+    public List<Tuple<string, Action>> SelaaRavintolatValikko(ConsoleMenu con, DateTime pvm)
+    {
+        // Luodaan sanakirja, jossa ravintolat ja ruokailijoiden lukumäärä
+        var ruokailijatLkm = HaeRuokailijatLkm(pvm);
+
+        var kysely = from i in db.Ravintolas
+                     select i;
+
+        // Luodaan Tuple-lista valikon AddRange()-metodia varten:
+        //      valikon alaotsikko (string): Ravintolan nimi ja ruokailijoiden lukumäärä
+        //      Action: Näyttää ravintolan tiedot
+        List<Tuple<string, Action>> map = new List<Tuple<string, Action>>();
+        foreach (var r in kysely)
+        {
+            // Luodaan string, jossa ravintolan nimi ja ruokailijoiden lukumäärä
+            var ruokailijat = ruokailijatLkm[r.RavintolanNimi] > 0 ? $"{ruokailijatLkm[r.RavintolanNimi]} ruokailija{(ruokailijatLkm[r.RavintolanNimi] == 1 ? "" : "a")} tänään" : "";
+            var valikkoNimi = $"{r.RavintolanNimi.PadRight(50)}{ruokailijat}";
+
+            // Lisätään listaan valikon alaotsikko ja Action
+            map.Add(Tuple.Create<string, Action>(valikkoNimi, () => TietojenNäyttäminen.NäytäRavintolanTiedot(HaeRavintolanTiedot(r.RavintolaId), con)));
+        }
+
         return map;
     }
 
@@ -68,12 +97,12 @@ class Kyselyt
         return kysely;
     }
 
-    public Dictionary<string, int> palautaRuokailijatLkm()
+    public Dictionary<string, int> HaeRuokailijatLkm()
     {
         Dictionary<string, int> ruokailijatLkm = new Dictionary<string, int>();
-        var newDateTime = DateTime.Today.Date.ToString("yyyy-MM-dd");
+        var pvmMuokattu = DateTime.Today.Date.ToString("yyyy-MM-dd");
         var kysely = (from i in db.VSyömäänRekisteröityneets
-                      where i.Päivämäärä.ToString() == newDateTime || i.Päivämäärä == null
+                      where i.Päivämäärä.ToString() == pvmMuokattu || i.Päivämäärä == null
                       select i);
 
         foreach (var item in kysely)
@@ -85,5 +114,20 @@ class Kyselyt
         return ruokailijatLkm;
     }
 
+    public Dictionary<string, int> HaeRuokailijatLkm(DateTime pvm)
+    {
+        Dictionary<string, int> ruokailijatLkm = new Dictionary<string, int>();
+        var pvmMuokattu = pvm.Date.ToString("yyyy-MM-dd");
+        var kysely = (from i in db.VSyömäänRekisteröityneets
+                      where i.Päivämäärä.ToString() == pvmMuokattu || i.Päivämäärä == null
+                      select i);
 
+        foreach (var item in kysely)
+        {
+            if (ruokailijatLkm.ContainsKey(item.RavintolanNimi))
+                continue;
+            ruokailijatLkm.Add(item.RavintolanNimi, Convert.ToInt32(item.SyömäänTulijat));
+        }
+        return ruokailijatLkm;
+    }
 }
