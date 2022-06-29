@@ -12,19 +12,8 @@ class Kyselyt
     {
         //Selaa ravintolat ja näytä ilmoittautuneet syömään
         // lisätään where ehto näyttämään vain tälle päivälle
-        
-        Dictionary<string, int> ruokailijatLkm = new Dictionary<string, int>();
-        var newDateTime = DateTime.Today.Date.ToString("yyyy-MM-dd");
-        var kysely = (from i in db.VSyömäänRekisteröityneets
-                      where i.Päivämäärä.ToString() == newDateTime || i.Päivämäärä == null
-                      select i);
-        
-        foreach (var item in kysely)
-        {
-            if (ruokailijatLkm.ContainsKey(item.RavintolanNimi))
-                continue;
-            ruokailijatLkm.Add(item.RavintolanNimi, Convert.ToInt32(item.SyömäänTulijat));
-        }
+
+        var ruokailijatLkm = palautaRuokailijatLkm();
 
         List<Tuple<string, Action>> map = new List<Tuple<string, Action>>();       
         var kysely2 = from i in db.Ravintolas
@@ -68,5 +57,21 @@ class Kyselyt
         return kysely;
     }
 
+    public Dictionary<string, int> palautaRuokailijatLkm()
+    {
+        Dictionary<string, int> ruokailijatLkm = new Dictionary<string, int>();
+        var newDateTime = DateTime.Today.Date.ToString("yyyy-MM-dd");
+        var kysely = (from i in db.VSyömäänRekisteröityneets
+                      where i.Päivämäärä.ToString() == newDateTime || i.Päivämäärä == null
+                      select i);
+
+        foreach (var item in kysely)
+        {
+            if (ruokailijatLkm.ContainsKey(item.RavintolanNimi))
+                continue;
+            ruokailijatLkm.Add(item.RavintolanNimi, Convert.ToInt32(item.SyömäänTulijat));
+        }
+        return ruokailijatLkm;
+    }
 
 }

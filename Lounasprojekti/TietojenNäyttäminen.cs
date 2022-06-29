@@ -39,4 +39,6 @@ static class TietojenNäyttäminen
         RavintolaID = kysely;
 
     }
+
+    public static void NäytäRavintolanRuokailijat() { }
 }
