@@ -53,4 +53,25 @@ static class TietojenNäyttäminen
             }
         Console.ReadLine();
     }
+
+    public static List<Tuple<string, Action>> NäytäKommentitValikko( ConsoleMenu con)
+    {
+
+        List<Tuple<string, Action>> map = new List<Tuple<string, Action>>();
+        var kysely = from i in db.Arvios
+                     join i2 in db.Käyttäjäs on i.KäyttäjäId equals i2.KäyttäjäId
+                     orderby i.Päivämäärä descending
+                     select new { käyttäjänimi = i2.Käyttäjänimi, kommentti = i.Kommentti, päivämäärä = i.Päivämäärä };
+
+        foreach (var item in kysely)
+        {
+            var valikkoNimi = $"{item.käyttäjänimi.PadRight(20)}{item.päivämäärä.ToString().PadRight(30)}{item.kommentti}";
+            map.Add(Tuple.Create<string, Action>(valikkoNimi, () => con.Show()));
+
+        }
+
+        return map;
+    }
+
+
 }

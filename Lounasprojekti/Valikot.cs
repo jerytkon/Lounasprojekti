@@ -3,7 +3,37 @@ using ConsoleTools;
 
 class Valikot
 {
-
+    public ConsoleMenu kommenttiMenu(string[] args)
+    {
+        var kommenttiMenu = new ConsoleMenu(args, 4)
+            .Add("poista", () => Console.WriteLine("ei vielä tehty"))
+            .Add("Sub_Close", ConsoleMenu.Close)
+                    .Configure(config =>
+                    {
+                        config.Selector = "--> ";
+                        config.EnableFilter = false;
+                        config.Title = "Submenu";
+                        config.EnableBreadcrumb = true;
+                        config.WriteBreadcrumbAction = titles => Console.WriteLine(string.Join(" / ", titles));
+                    }
+                    );
+        return kommenttiMenu;
+    }
+    public ConsoleMenu kommentitMenu(string[] args, ConsoleMenu kommenttiMenu)
+    {
+        var kommentitMenu = new ConsoleMenu(args, 3)
+        .AddRange(TietojenNäyttäminen.NäytäKommentitValikko( kommenttiMenu))
+        .Add("Sub_Close", ConsoleMenu.Close)
+                    .Configure(config =>
+                    {
+                        config.Selector = "--> ";
+                        config.EnableFilter = false;
+                        config.Title = "Submenu";
+                        config.EnableBreadcrumb = true;
+                        config.WriteBreadcrumbAction = titles => Console.WriteLine(string.Join(" / ", titles));
+                    });
+        return kommentitMenu;
+    }
     public ConsoleMenu ravintolaSubMenu(string[] args, Kirjautuminen kirjautuminen)
     {
         var kyselyObjekti = new Kyselyt();
@@ -12,6 +42,7 @@ class Valikot
             .Add("Ilmoittaudu lounasseuraksi", () => muokkausObjekti.IlmoittauduLounaalle(TietojenNäyttäminen.RavintolaID, kirjautuminen.KäyttäjäId, DateTime.Today))
             .Add("Arvioi lounasravintola", () => muokkausObjekti.LisääArvio(TietojenNäyttäminen.RavintolaID, kirjautuminen.KäyttäjäId))
             .Add("Näytä ruokailijat", () => TietojenNäyttäminen.NäytäRavintolanRuokailijat(TietojenNäyttäminen.RavintolaID))
+            .Add("Näytä kommenti", () => Console.WriteLine("Ei vielä implementoitu"))
             .Add("Sub_Close", ConsoleMenu.Close)
             .Configure(config =>
     {
@@ -41,12 +72,13 @@ class Valikot
       });
         return ravintolatMenu;
     }
-    public ConsoleMenu käyttäjäMenu(string[] args, ConsoleMenu ravintolatMenu)
+    public ConsoleMenu käyttäjäMenu(string[] args, ConsoleMenu ravintolatMenu, ConsoleMenu kommentitMenu)
     {
         var kyselyObjekti = new Kyselyt();
         var muokkausObjekti = new Muokkaus();
         var käyttäjäMenu = new ConsoleMenu(args, level: 0)
           .Add("Näytä ravintolat", ravintolatMenu.Show)
+          .Add("Näytä kommentit", () => kommentitMenu.Show())
           .Add("Change me", (thisMenu) => thisMenu.CurrentItem.Name = "I am changed!")
           //.Add("Close", ConsoleMenu.Close)
           .Add("Exit", () => Environment.Exit(0))
@@ -57,15 +89,16 @@ class Valikot
           config.Title = "Main menu";
           config.EnableWriteTitle = true;
           config.EnableBreadcrumb = true;
-      }); 
+      });
         return käyttäjäMenu;
     }
-    public ConsoleMenu adminMenu(string[] args, ConsoleMenu ravintolatMenu)
+    public ConsoleMenu adminMenu(string[] args, ConsoleMenu ravintolatMenu, ConsoleMenu kommentitMenu)
     {
         var kyselyObjekti = new Kyselyt();
         var muokkausObjekti = new Muokkaus();
         var adminMenu = new ConsoleMenu(args, level: 0)
             .Add("Näytä ravintolat", ravintolatMenu.Show)
+            .Add("Näytä kommentit", () => kommentitMenu.Show())
             .Add("Lisää ravintola", () => muokkausObjekti.LisääRavintola())
             .Add("Change me", (thisMenu) => thisMenu.CurrentItem.Name = "I am changed!")
             .Add("Exit", () => Environment.Exit(0))
