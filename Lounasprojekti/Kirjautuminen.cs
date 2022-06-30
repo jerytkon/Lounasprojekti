@@ -12,6 +12,8 @@ class Kirjautuminen
     Muokkaus muokkausObjekti = new Muokkaus();
     public void Kirjaudu()
     {
+        var valikot = new Valikot();
+        Console.WriteLine(valikot.appAscii);
         while (KäyttäjäId == 0)
         {
             if (KäyttäjäNimi == null)

@@ -3,17 +3,29 @@ using ConsoleTools;
 
 class Valikot
 {
+    public string appAscii { get; set; } = @"
+
+     _                                                     
+    | |                                                    
+    | |     ___  _   _ _ __   __ _ ___    __ _ _ __  _ __  
+    | |    / _ \| | | | '_ \ / _` / __|  / _` | '_ \| '_ \ 
+    | |___| (_) | |_| | | | | (_| \__ \ | (_| | |_) | |_) |
+    \_____/\___/ \__,_|_| |_|\__,_|___/  \__,_| .__/| .__/ 
+                                              | |   | |    
+                                              |_|   |_|    
+
+";
     public ConsoleMenu kommenttiMenu(string[] args)
     {
         var muokkausObjekti = new Muokkaus();
         var kommenttiMenu = new ConsoleMenu(args, 4)
             .Add("Sensuroi Kommentti", () => muokkausObjekti.sensuroiKommentti())
-            .Add("Sub_Close", ConsoleMenu.Close)
+            .Add("Takaisin", ConsoleMenu.Close)
                     .Configure(config =>
                     {
                         config.Selector = "--> ";
                         config.EnableFilter = false;
-                        config.Title = "Submenu";
+                        config.Title = appAscii;
                         config.EnableBreadcrumb = true;
                         config.WriteBreadcrumbAction = titles => Console.WriteLine(string.Join(" / ", titles));
                     }
@@ -25,13 +37,13 @@ class Valikot
         var valikkojenPäivitysObjekti = new ValikkojenPäivitys();
         var kommentitMenu = new ConsoleMenu(args, 3)
         .AddRange(TietojenNäyttäminen.NäytäKommentitValikko( kommenttiMenu))
-        .Add("päivitä kommentit", (thisMenu) => valikkojenPäivitysObjekti.PäivitäKommenttiValikko(thisMenu))
-        .Add("Sub_Close", ConsoleMenu.Close)
+        .Add("Päivitä kommentit", (thisMenu) => valikkojenPäivitysObjekti.PäivitäKommenttiValikko(thisMenu))
+        .Add("Takaisin", ConsoleMenu.Close)
                     .Configure(config =>
                     {
                         config.Selector = "--> ";
                         config.EnableFilter = false;
-                        config.Title = "Submenu";
+                        config.Title = appAscii;
                         config.EnableBreadcrumb = true;
                         config.WriteBreadcrumbAction = titles => Console.WriteLine(string.Join(" / ", titles));
                     });
@@ -45,13 +57,13 @@ class Valikot
             .Add("Ilmoittaudu lounasseuraksi", () => muokkausObjekti.IlmoittauduLounaalle(TietojenNäyttäminen.RavintolaID, kirjautuminen.KäyttäjäId))
             .Add("Arvioi lounasravintola", () => muokkausObjekti.LisääArvio(TietojenNäyttäminen.RavintolaID, kirjautuminen.KäyttäjäId))
             .Add("Näytä ruokailijat", () => TietojenNäyttäminen.NäytäRavintolanRuokailijat(TietojenNäyttäminen.RavintolaID))
-            .Add("Näytä Arvostelut", () => TietojenNäyttäminen.NäytäRavintolanArvostelut(TietojenNäyttäminen.RavintolaID))
-            .Add("Sub_Close", ConsoleMenu.Close)
+            .Add("Näytä arvostelut", () => TietojenNäyttäminen.NäytäRavintolanArvostelut(TietojenNäyttäminen.RavintolaID))
+            .Add("Takaisin", ConsoleMenu.Close)
             .Configure(config =>
     {
         config.Selector = "--> ";
         config.EnableFilter = false;
-        config.Title = "Submenu";
+        config.Title = appAscii;
         config.EnableBreadcrumb = true;
         config.WriteBreadcrumbAction = titles => Console.WriteLine(string.Join(" / ", titles));
     });
@@ -64,13 +76,13 @@ class Valikot
         var valikkojenPäivitysObjekti = new ValikkojenPäivitys();
         var ravintolatMenu = new ConsoleMenu(args, level: 1)
           .AddRange(kyselyObjekti.LuoRavintolatValikko(ravintolatSubMenu))
-          .Add("päivitä ravintolat", (thisMenu) => valikkojenPäivitysObjekti.PäivitäRavintolatValikko(thisMenu))
-          .Add("Sub_Close", ConsoleMenu.Close)
+          .Add("Päivitä ravintolat", (thisMenu) => valikkojenPäivitysObjekti.PäivitäRavintolatValikko(thisMenu))
+          .Add("Takaisin", ConsoleMenu.Close)
           .Configure(config =>
       {
           config.Selector = "--> ";
           config.EnableFilter = false;
-          config.Title = "Submenu";
+          config.Title = "";
           config.EnableBreadcrumb = true;
           config.WriteBreadcrumbAction = titles => Console.WriteLine(string.Join(" / ", titles));
       });
@@ -83,12 +95,12 @@ class Valikot
         var muokkausObjekti = new Muokkaus();
         var top3Menu = new ConsoleMenu(args, level: 1)
           .AddRange(kyselyObjekti.SelaaTop3RavintolatValikko(ravintolatSubMenu))
-          .Add("Sub_Close", ConsoleMenu.Close)
+          .Add("Takaisin", ConsoleMenu.Close)
           .Configure(config =>
           {
               config.Selector = "--> ";
               config.EnableFilter = false;
-              config.Title = "Submenu";
+              config.Title = "";
               config.EnableBreadcrumb = true;
               config.WriteBreadcrumbAction = titles => Console.WriteLine(string.Join(" / ", titles));
           });
@@ -102,16 +114,15 @@ class Valikot
         var käyttäjäMenu = new ConsoleMenu(args, level: 0)
           .Add("Näytä kaikki ravintolat", ravintolatMenu.Show)
           .Add("Näytä 3 parhaiten arvosteltua ravintolaa", top3Menu.Show)
-          .Add("Change me", (thisMenu) => thisMenu.CurrentItem.Name = "I am changed!")
-          //.Add("Close", ConsoleMenu.Close)
-          .Add("Exit", () => Environment.Exit(0))
+          .Add("Sulje", () => Environment.Exit(0))
       .Configure(config =>
       {
           config.Selector = "--> ";
           config.EnableFilter = false;
-          config.Title = "Main menu";
+          config.Title = appAscii;
           config.EnableWriteTitle = true;
           config.EnableBreadcrumb = true;
+          config.EnableWriteTitle = false;
       });
         return käyttäjäMenu;
     }
@@ -123,13 +134,12 @@ class Valikot
             .Add("Näytä ravintolat", ravintolatMenu.Show)
             .Add("Näytä kommentit", () => kommentitMenu.Show())
             .Add("Lisää ravintola", () => muokkausObjekti.LisääRavintola())
-            .Add("Change me", (thisMenu) => thisMenu.CurrentItem.Name = "I am changed!")
-            .Add("Exit", () => Environment.Exit(0))
+            .Add("Sulje", () => Environment.Exit(0))
   .Configure(config =>
   {
       config.Selector = "--> ";
       config.EnableFilter = false;
-      config.Title = "Main menu";
+      config.Title = appAscii;
       config.EnableWriteTitle = true;
       config.EnableBreadcrumb = true;
   });
