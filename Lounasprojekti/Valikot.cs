@@ -66,6 +66,7 @@ class Valikot
         config.Title = appAscii;
         config.EnableBreadcrumb = true;
         config.WriteBreadcrumbAction = titles => Console.WriteLine(string.Join(" / ", titles));
+        config.WriteHeaderAction = () => Console.WriteLine("Valitse toiminto: ");
     });
         return ravintolaSubMenu;
     }
@@ -85,6 +86,7 @@ class Valikot
           config.Title = "";
           config.EnableBreadcrumb = true;
           config.WriteBreadcrumbAction = titles => Console.WriteLine(string.Join(" / ", titles));
+          config.WriteHeaderAction = () => Console.WriteLine("Valitse ravintola: ");
       });
         return ravintolatMenu;
     }
@@ -103,6 +105,7 @@ class Valikot
               config.Title = "";
               config.EnableBreadcrumb = true;
               config.WriteBreadcrumbAction = titles => Console.WriteLine(string.Join(" / ", titles));
+              config.WriteHeaderAction = () => Console.WriteLine("Valitse ravintola: ");
           });
         return top3Menu;
     }
@@ -123,6 +126,7 @@ class Valikot
           config.EnableWriteTitle = false;
           config.EnableBreadcrumb = true;
           config.EnableWriteTitle = false;
+          config.WriteHeaderAction = () => Console.WriteLine("Valitse toiminto: ");
       });
         return käyttäjäMenu;
     }
