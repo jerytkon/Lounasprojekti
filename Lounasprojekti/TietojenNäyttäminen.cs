@@ -27,8 +27,16 @@ static class TietojenNäyttäminen
         PäivitäRavintolaId(ravintolanTiedot[0]);
         RavintolaNimi = ravintolanTiedot[0];
         Console.Clear();
-        foreach (var item in ravintolanTiedot)
-            Console.WriteLine(item);
+        Console.WriteLine("".PadRight(9) + RavintolaNimi);
+        Console.WriteLine();
+        Console.WriteLine("Kategoria:".PadRight(15) + ravintolanTiedot[1]);
+        Console.WriteLine("Keskiarvo:".PadRight(15) + ravintolanTiedot[2]);
+        Console.WriteLine("Osoite:".PadRight(15) + ravintolanTiedot[3]);
+        Console.WriteLine("".PadRight(15) + ravintolanTiedot[4]);
+        Console.WriteLine("".PadRight(15) + ravintolanTiedot[5]);
+        Console.WriteLine("Verkkosivu:".PadRight(15) + ravintolanTiedot[6]);
+        Console.WriteLine();
+        Console.WriteLine("***** Sulje tiedot painamalla enter *****");
         Console.ReadLine();
         con.Show();
     }
