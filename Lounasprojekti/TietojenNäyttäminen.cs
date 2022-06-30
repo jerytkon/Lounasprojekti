@@ -61,12 +61,14 @@ static class TietojenNäyttäminen
         Kyselyt kysely = new Kyselyt();
         var Ruokailijat = kysely.HaeRuokailijatTänään(RavintolaID);
         if (Ruokailijat.Count == 0)
-            Console.WriteLine("Ei ruokailijoita");
+            Console.WriteLine($"Ravintolassa {RavintolaNimi} ei ruokailijoita tänään");
         else
+            Console.WriteLine($"Ravintolassa {RavintolaNimi} tänään syömässä:" + Environment.NewLine);
             foreach (var ruokailija in Ruokailijat)
             {
                 Console.WriteLine(ruokailija);
             }
+        Console.WriteLine(Environment.NewLine + "***** Palaa takaisin painamalla enter *****");
         Console.ReadLine();
     }
 
@@ -128,10 +130,12 @@ static class TietojenNäyttäminen
         Console.Clear();
         var valikot = new Valikot();
         Console.WriteLine(valikot.appAscii);
+        Console.WriteLine(RavintolaNimi.PadLeft(33) + Environment.NewLine);
         foreach (var item in kommenttiLista)
         {
             Console.WriteLine(item);
         }
+        Console.WriteLine(Environment.NewLine + "***** Palaa takaisin painamalla enter *****");
         Console.ReadLine();
     }
 
