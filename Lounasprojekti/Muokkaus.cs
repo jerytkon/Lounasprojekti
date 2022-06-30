@@ -74,7 +74,8 @@ class Muokkaus
 
         db.Arvios.Add(uusi);
         db.SaveChanges();
-        Console.WriteLine("Arvio lisätty");
+        Console.Clear();
+        Console.WriteLine("Arvio lisätty. Paina enter");
         Console.ReadLine();
     }
 
@@ -110,7 +111,8 @@ class Muokkaus
 
         db.Arvios.Add(uusi);
         db.SaveChanges();
-        Console.WriteLine("Arvio lisätty");
+        Console.Clear();
+        Console.WriteLine("Arvio lisätty. Paina enter");
         Console.ReadLine();
     }
 
@@ -200,7 +202,8 @@ class Muokkaus
         if (lounastapahtumaId == 0)
         {
             AloitaLounastapahtuma(ravintolaId, käyttäjäId);
-            Console.WriteLine("Lounastapahtuma luotu");
+            Console.Clear();
+            Console.WriteLine("Lounastapahtuma luotu. Paina enter");
             Console.ReadLine();
 
         }
@@ -214,7 +217,8 @@ class Muokkaus
 
             db.Lounasseuras.Add(uusi);
             db.SaveChanges();
-            Console.WriteLine("Sinut on lisätty lounaalle");
+            Console.Clear();
+            Console.WriteLine("Sinut on lisätty lounaalle. Paina enter");
             Console.ReadLine();
         }
     }
@@ -228,7 +232,8 @@ class Muokkaus
         if (lounastapahtumaId == 0)
         {
             AloitaLounastapahtuma(ravintolaId, käyttäjäId, pvm);
-            Console.WriteLine("Lounastapahtuma luotu");
+            Console.Clear();
+            Console.WriteLine("Lounastapahtuma luotu. Paina enter");
             Console.ReadLine();
         }
         else
@@ -241,19 +246,10 @@ class Muokkaus
 
             db.Lounasseuras.Add(uusi);
             db.SaveChanges();
-            Console.WriteLine("Sinut on lisätty lounaalle");
+            Console.Clear();
+            Console.WriteLine("Sinut on lisätty lounaalle. Paina enter");
             Console.ReadLine();
         }
-
-    }
-
-    public void IlmoittauduLounaalle(string ravintolanNimi, int käyttäjäId)
-    {
-        var kysely = (from i in db.Ravintolas
-                      where i.RavintolanNimi == ravintolanNimi
-                      select i.RavintolaId).FirstOrDefault();
-
-        IlmoittauduLounaalle(kysely, käyttäjäId);
 
     }
 
