@@ -60,7 +60,8 @@ class Valikot
         var kyselyObjekti = new Kyselyt();
         var muokkausObjekti = new Muokkaus();
         var ravintolatMenu = new ConsoleMenu(args, level: 1)
-          .AddRange(kyselyObjekti.SelaaRavintolatValikko(ravintolatSubMenu))
+          .AddRange(kyselyObjekti.LuoRavintolatValikko(ravintolatSubMenu))
+          .Add("päivitä ravintolat", (thisMenu) => muokkausObjekti.PäivitäRavintolatValikko(thisMenu))
           .Add("Sub_Close", ConsoleMenu.Close)
           .Configure(config =>
       {

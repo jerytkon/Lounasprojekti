@@ -1,4 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using ConsoleTools;
 using Lounasprojekti.Models;
 //b.IlmoittauduLounaalle(2, 2);
 
@@ -6,6 +7,44 @@ class Muokkaus
 {
 
     LounasDBContext db = new LounasDBContext();
+
+    public List<string> LuoRavintolatValikkoLista()
+    {
+        var Kysely = new Kyselyt();
+        var valikkoLista = new List<string>();
+        var ruokailijatLkm = Kysely.HaeRuokailijatLkm();
+
+        var kysely = from i in db.Ravintolas
+                     select i;
+
+        List<Tuple<string, Action>> map = new List<Tuple<string, Action>>();
+        foreach (var r in kysely)
+        {
+            var ruokailijat = ruokailijatLkm[r.RavintolanNimi] > 0 ? $"{ruokailijatLkm[r.RavintolanNimi]} ruokailija{(ruokailijatLkm[r.RavintolanNimi] == 1 ? "" : "a")} tänään" : "";
+            var valikkoNimi = $"{r.RavintolanNimi.PadRight(50)}{ruokailijat}";
+            valikkoLista.Add(valikkoNimi);
+        }
+        return valikkoLista;
+    }
+
+    public void PäivitäRavintolatValikko(ConsoleMenu con)
+    {
+        var valikkoLista = LuoRavintolatValikkoLista();
+        var index = 0;
+        foreach (var item in con.Items)
+        {
+            try
+            {
+                item.Name = valikkoLista[index];
+                index++;
+            }
+            catch (System.ArgumentOutOfRangeException)
+            {
+                item.Name = item.Name;
+                index++;
+            }
+        }
+    }
 
     public void LisääArvio(int ravintolaId, int käyttäjäId, int arvosana, string kommentti = "")
     {
