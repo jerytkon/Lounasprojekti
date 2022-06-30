@@ -14,9 +14,11 @@ static class TietojenNäyttäminen
 
     public static void NäytäRavintolanTiedot(List<string> ravintolanTiedot, ConsoleMenu con)
     {
+        var valikot = new Valikot();
         PäivitäRavintolaId(ravintolanTiedot[0]);
         RavintolaNimi = ravintolanTiedot[0];
         Console.Clear();
+        Console.WriteLine(valikot.appAscii);
         Console.WriteLine("".PadRight(9) + RavintolaNimi);
         Console.WriteLine();
         Console.WriteLine("Kategoria:".PadRight(15) + ravintolanTiedot[1]);
@@ -54,6 +56,8 @@ static class TietojenNäyttäminen
     public static void NäytäRavintolanRuokailijat(int RavintolaID)
     {
         Console.Clear();
+        var valikot = new Valikot();
+        Console.WriteLine(valikot.appAscii);
         Kyselyt kysely = new Kyselyt();
         var Ruokailijat = kysely.HaeRuokailijatTänään(RavintolaID);
         if (Ruokailijat.Count == 0)
@@ -122,6 +126,8 @@ static class TietojenNäyttäminen
             kommenttiLista.Add(sb.ToString());
         }
         Console.Clear();
+        var valikot = new Valikot();
+        Console.WriteLine(valikot.appAscii);
         foreach (var item in kommenttiLista)
         {
             Console.WriteLine(item);

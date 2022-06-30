@@ -120,7 +120,7 @@ class Valikot
           config.Selector = "--> ";
           config.EnableFilter = false;
           config.Title = appAscii;
-          config.EnableWriteTitle = true;
+          config.EnableWriteTitle = false;
           config.EnableBreadcrumb = true;
           config.EnableWriteTitle = false;
       });
@@ -140,7 +140,7 @@ class Valikot
       config.Selector = "--> ";
       config.EnableFilter = false;
       config.Title = appAscii;
-      config.EnableWriteTitle = true;
+      config.EnableWriteTitle = false;
       config.EnableBreadcrumb = true;
   });
         return adminMenu;

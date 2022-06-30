@@ -102,7 +102,7 @@ class Muokkaus
 
     public void IlmoittauduLounaalle(int ravintolaId, int käyttäjäId)
     {
-
+        var valikot = new Valikot();
         var lounastapahtumaId = (from i in db.Lounastapahtumas
                                  where i.RavintolaId == ravintolaId && i.Päivämäärä == DateTime.Today
                                  select i.LounastapahtumaId).FirstOrDefault();
@@ -114,6 +114,7 @@ class Muokkaus
         {
             AloitaLounastapahtuma(ravintolaId, käyttäjäId);
             Console.Clear();
+            Console.WriteLine(valikot.appAscii);
             Console.WriteLine("Lounastapahtuma luotu. Paina enter");
             Console.ReadLine();
 
@@ -126,8 +127,6 @@ class Muokkaus
                 KäyttäjäId = käyttäjäId
             };
 
-
-
             var onJoIlmoittautunut = (from i in db.Lounasseuras
                                       where lounastapahtumaId == i.LounastapahtumaId
                                       select i.KäyttäjäId).ToList();
@@ -136,17 +135,18 @@ class Muokkaus
             {
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Olet jo ilmoittautunut mukaan lounaalle");
+                Console.WriteLine(valikot.appAscii);
+                Console.WriteLine("Olet jo ilmoittautunut mukaan lounaalle. Paina enter jatkaaksesi.");
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.ReadLine();
                 return;
             }
 
-
-
             db.Lounasseuras.Add(uusi);
             db.SaveChanges();
             Console.Clear();
+            
+            Console.WriteLine(valikot.appAscii);
             Console.WriteLine("Sinut on lisätty lounaalle. Paina enter");
             Console.ReadLine();
         }
