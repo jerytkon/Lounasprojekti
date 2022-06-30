@@ -7,8 +7,8 @@ class Kyselyt
 {
     LounasDBContext db = new LounasDBContext();
     CultureInfo culture = CultureInfo.InvariantCulture;
-
-    public List<Tuple<string, Action>> SelaaRavintolatValikko(ConsoleMenu con)
+    
+    public List<Tuple<string, Action>> LuoRavintolatValikko(ConsoleMenu con)
     {
         // Luodaan sanakirja, jossa ravintolat ja ruokailijoiden lukumäärä
         var ruokailijatLkm = HaeRuokailijatLkm();
@@ -33,7 +33,7 @@ class Kyselyt
         return map;
     }
 
-    public List<Tuple<string, Action>> SelaaRavintolatValikko(ConsoleMenu con, DateTime pvm)
+    public List<Tuple<string, Action>> LuoRavintolatValikko(ConsoleMenu con, DateTime pvm)
     {
         // Luodaan sanakirja, jossa ravintolat ja ruokailijoiden lukumäärä
         var ruokailijatLkm = HaeRuokailijatLkm(pvm);
