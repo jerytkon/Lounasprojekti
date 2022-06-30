@@ -154,12 +154,12 @@ class Valikot
         return adminMenu;
     }
 
-    public ConsoleMenu KäyttäjänPoistoMenu(string[] args)
+    public ConsoleMenu KäyttäjänMuokkausMenu(string[] args)
     {
         var kyselyObjekti = new Kyselyt();
         var muokkausObjekti = new Muokkaus();
         var käyttäjänpoistoMenu = new ConsoleMenu(args, level: 2)
-          .Add("Poista käyttäjä", () => Console.WriteLine("poista käyttäjä"))
+          .Add("Sensuroi käyttäjänimi", () => muokkausObjekti.SensuroiKäyttäjä())
           .Add("Takaisin", ConsoleMenu.Close)
       //.Add("Exit", () => Environment.Exit(0))
       .Configure(config =>

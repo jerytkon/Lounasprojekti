@@ -178,5 +178,17 @@ class Muokkaus
         }
     }
 
+    public void SensuroiKäyttäjä()
+    {
+        var käyttäjä = (from i in db.Käyttäjäs
+                       where i.KäyttäjäId == TietojenNäyttäminen.KäyttäjäID
+                       select i).First();
+
+        käyttäjä.Käyttäjänimi = "*Nimi sensuroitu*";
+        db.SaveChanges();
+        Console.WriteLine($"Käyttäjä {käyttäjä.Käyttäjänimi} sensuroitu");
+
+
+    }
 
 }
