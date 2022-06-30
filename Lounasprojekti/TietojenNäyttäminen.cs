@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using ConsoleTools;
 using Lounasprojekti.Models;
+using System.Text;
 
 static class TietojenNäyttäminen
 {
@@ -71,6 +72,46 @@ static class TietojenNäyttäminen
         }
 
         return map;
+    }
+
+    public static void NäytäRavintolanArvostelut(int ravintolaId)
+    {
+        var kommenttiLista = new List<string>();
+        kommenttiLista.Add("*************************ARVOSTELUT*************************");
+
+        var kysely = (from i in db.Ravintolas
+                      where i.RavintolaId == ravintolaId
+                      join i2 in db.Arvios on i.RavintolaId equals i2.RavintolaId
+                      join i3 in db.Käyttäjäs on i2.KäyttäjäId equals i3.KäyttäjäId
+                      orderby i2.Päivämäärä descending
+                      select new
+                      {
+                          Pvm = i2.Päivämäärä,
+                          Arvosana = i2.Arvosana,
+                          Kommentti = i2.Kommentti,
+                          Nimi = i3.Käyttäjänimi
+                      });
+
+        foreach (var item in kysely)
+        {
+            var kommentti = item.Kommentti;
+            if (item.Kommentti.Length > 60)
+            {
+                kommentti = item.Kommentti.Substring(0, 60) + Environment.NewLine + item.Kommentti.Substring(60);
+            }
+            var sb = new StringBuilder();
+            sb.AppendLine(String.Format("{0, 0}{1, 40}", item.Pvm.ToString(), item.Nimi));
+            sb.Append("Arvosana: " + item.Arvosana.ToString() + "/5" + Environment.NewLine);
+            sb.Append(String.Format("{0, 40}", kommentti + Environment.NewLine));
+            sb.AppendLine("************************************************************");
+            kommenttiLista.Add(sb.ToString());
+        }
+        Console.Clear();
+        foreach (var item in kommenttiLista)
+        {
+            Console.WriteLine(item);
+        }
+        Console.ReadLine();
     }
 
 
