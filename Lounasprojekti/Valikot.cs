@@ -171,9 +171,10 @@ class Valikot
       {
           config.Selector = "--> ";
           config.EnableFilter = false;
-          config.Title = "Käyttäjän hallinta";
-          config.EnableWriteTitle = true;
+          config.Title = appAscii;
+          config.EnableWriteTitle = false;
           config.EnableBreadcrumb = true;
+          config.WriteHeaderAction = () => Console.WriteLine("Valitse toiminto: ");
       });
         return käyttäjänpoistoMenu;
     }
@@ -191,9 +192,10 @@ class Valikot
   {
       config.Selector = "--> ";
       config.EnableFilter = false;
-      config.Title = "Käyttäjien hallinta";
-      config.EnableWriteTitle = true;
+      config.Title = appAscii;
+      config.EnableWriteTitle = false;
       config.EnableBreadcrumb = true;
+      config.WriteHeaderAction = () => Console.WriteLine("Valitse käyttäjä: ");
   });
         return ListaaKäyttäjätMenu;
     }

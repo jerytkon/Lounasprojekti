@@ -47,7 +47,7 @@ class Muokkaus
 
         db.Arvios.Add(uusi);
         db.SaveChanges();
-        Console.Clear();
+        //Console.Clear();
         Console.WriteLine("Arvio lisätty. Palaa takaisin painamalla enter");
         Console.ReadLine();
     }
