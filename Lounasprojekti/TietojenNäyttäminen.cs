@@ -7,6 +7,8 @@ static class TietojenNäyttäminen
 {
     public static string RavintolaNimi { get; set; }
     public static int RavintolaID { get; set; }
+    public static int ArvioID { get; set; }
+
 
     static LounasDBContext db = new LounasDBContext();
 
@@ -41,6 +43,16 @@ static class TietojenNäyttäminen
 
     }
 
+    public static void PäivitäKommenttiId(string kommentti)
+    {
+        var kysely = (from i in db.Arvios
+                      where i.Kommentti == kommentti
+                      select i.ArvioId).First();
+
+        ArvioID = kysely;
+
+    }
+
     public static void NäytäRavintolanRuokailijat(int RavintolaID)
     {
         Console.Clear();
@@ -56,7 +68,7 @@ static class TietojenNäyttäminen
         Console.ReadLine();
     }
 
-    public static List<Tuple<string, Action>> NäytäKommentitValikko( ConsoleMenu con)
+    public static List<Tuple<string, Action>> NäytäKommentitValikko(ConsoleMenu con)
     {
 
         List<Tuple<string, Action>> map = new List<Tuple<string, Action>>();
@@ -68,7 +80,11 @@ static class TietojenNäyttäminen
         foreach (var item in kysely)
         {
             var valikkoNimi = $"{item.käyttäjänimi.PadRight(20)}{item.päivämäärä.ToString().PadRight(30)}{item.kommentti}";
-            map.Add(Tuple.Create<string, Action>(valikkoNimi, () => con.Show()));
+            map.Add(Tuple.Create<string, Action>(valikkoNimi, () =>
+            {
+                TietojenNäyttäminen.PäivitäKommenttiId(item.kommentti);
+                con.Show();
+            }));
 
         }
 
