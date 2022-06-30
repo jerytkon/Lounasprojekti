@@ -17,7 +17,9 @@ class Muokkaus
         var arvosanaOnOk = int.TryParse(Console.ReadLine(), out arvosana);
         if (!arvosanaOnOk || arvosana < 1 || arvosana > 5)
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Arviota ei lisätty - arvosanan tulee olla väliltä 1-5. Palaa takaisin painamalla enter");
+            Console.ForegroundColor = ConsoleColor.White;
             Console.ReadLine();
             return;
         }
@@ -25,7 +27,9 @@ class Muokkaus
         var kommentti = Console.ReadLine();
         if (kommentti.Length >= 200)
         {
-            Console.WriteLine("Kommentin pituus max 200 merkkiä, yritä uudelleen");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Arviota ei lisätty - Kommentin pituus max 200 merkkiä. Palaa takaisin painamalla enter");
+            Console.ForegroundColor = ConsoleColor.White;
             Console.ReadLine();
             return;
         }
@@ -43,10 +47,9 @@ class Muokkaus
         db.Arvios.Add(uusi);
         db.SaveChanges();
         Console.Clear();
-        Console.WriteLine("Arvio lisätty. Paina enter");
+        Console.WriteLine("Arvio lisätty. Palaa takaisin painamalla enter");
         Console.ReadLine();
     }
-
 
 
     public void AloitaLounastapahtuma(int ravintolaId, int käyttäjäId)
@@ -79,14 +82,23 @@ class Muokkaus
         Console.Write("Ravintolan nimi: ");
         uusi.RavintolanNimi = Console.ReadLine();
 
+        if (uusi.RavintolanNimi.Length < 2)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Ravintolan nimi liian lyhyt. Palaa takaisin painamalla enter");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.ReadLine();
+            return;
+        }
+
         Console.Write("Osoite: ");
         uusi.Osoite = Console.ReadLine();
 
+                Console.Write("Postinumero: ");
+        uusi.Postinumero = Console.ReadLine();
+        
         Console.Write("Postitoimipaikka: ");
         uusi.Postitoimipaikka = Console.ReadLine();
-
-        Console.Write("Postinumero: ");
-        uusi.Postinumero = Console.ReadLine();
 
         Console.Write("Verkkosivu: ");
         uusi.Verkkosivu = Console.ReadLine();
@@ -107,15 +119,12 @@ class Muokkaus
                                  where i.RavintolaId == ravintolaId && i.Päivämäärä == DateTime.Today
                                  select i.LounastapahtumaId).FirstOrDefault();
 
-
-
-
         if (lounastapahtumaId == 0)
         {
             AloitaLounastapahtuma(ravintolaId, käyttäjäId);
             Console.Clear();
             Console.WriteLine(valikot.appAscii);
-            Console.WriteLine("Lounastapahtuma luotu. Paina enter");
+            Console.WriteLine("Lounastapahtuma luotu. Palaa takaisin painamalla enter");
             Console.ReadLine();
 
         }
@@ -136,7 +145,7 @@ class Muokkaus
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine(valikot.appAscii);
-                Console.WriteLine("Olet jo ilmoittautunut mukaan lounaalle. Paina enter jatkaaksesi.");
+                Console.WriteLine("Olet jo ilmoittautunut mukaan lounaalle. Palaa takaisin painamalla enter");
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.ReadLine();
                 return;
@@ -147,7 +156,7 @@ class Muokkaus
             Console.Clear();
             
             Console.WriteLine(valikot.appAscii);
-            Console.WriteLine("Sinut on lisätty lounaalle. Paina enter");
+            Console.WriteLine("Sinut on lisätty lounaalle. Palaa takasin painamalla enter");
             Console.ReadLine();
         }
     }

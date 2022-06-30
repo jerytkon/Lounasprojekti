@@ -141,7 +141,7 @@ static class TietojenNäyttäminen
         Console.Clear();
         var valikot = new Valikot();
         Console.WriteLine(valikot.appAscii);
-        Console.WriteLine(RavintolaNimi.PadLeft(33) + Environment.NewLine);
+        Console.WriteLine("                       " + RavintolaNimi + Environment.NewLine);
         foreach (var item in kommenttiLista)
         {
             Console.WriteLine(item);
