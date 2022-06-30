@@ -185,8 +185,10 @@ class Valikot
     {
         var kyselyObjekti = new Kyselyt();
         var muokkausObjekti = new Muokkaus();
+        var valikkojenPäivitysObjekti = new ValikkojenPäivitys();
         var ListaaKäyttäjätMenu = new ConsoleMenu(args, level: 1)
             .AddRange(TietojenNäyttäminen.ListaaKäyttäjät(käyttäjänPoistoMenu))
+            .Add("Päivitä",(thisMenu) => valikkojenPäivitysObjekti.PäivitäKäyttäjienHallintaValikko(thisMenu))
             .Add("Takaisin", ConsoleMenu.Close)
   .Configure(config =>
   {

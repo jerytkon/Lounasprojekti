@@ -254,7 +254,12 @@ class Muokkaus
 
         käyttäjä.Käyttäjänimi = "*Nimi sensuroitu*";
         db.SaveChanges();
-        Console.WriteLine($"Käyttäjä {käyttäjä.Käyttäjänimi} sensuroitu");
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine($"Käyttäjänimi sensuroitu");
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine("Paina enter palataksesi takaisin");
+        Console.ReadLine();
 
 
     }

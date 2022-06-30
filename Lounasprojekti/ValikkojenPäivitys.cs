@@ -79,4 +79,36 @@ class ValikkojenPäivitys
         }
     }
 
+    public void PäivitäKäyttäjienHallintaValikko(ConsoleMenu con)
+    {
+
+        var valikkoLista = LuoKäyttäjienHallintaLista();
+        var index = 0;
+        foreach (var item in con.Items)
+        {
+            try
+            {
+                item.Name = valikkoLista[index];
+                index++;
+            }
+            catch (System.ArgumentOutOfRangeException)
+            {
+                item.Name = item.Name;
+                index++;
+            }
+        }
+    }
+   public List<string> LuoKäyttäjienHallintaLista()
+    {
+        var lista = new List<string>();
+        var kysely = (from i in db.Käyttäjäs
+                      select i).ToList();
+        foreach (var item in kysely)
+        {
+            lista.Add($"{item.Käyttäjänimi.PadRight(20)}ID: {item.KäyttäjäId.ToString()}");
+        }
+        return lista;
+    }
+
+
 }
