@@ -5,8 +5,9 @@ class Valikot
 {
     public ConsoleMenu kommenttiMenu(string[] args)
     {
+        var muokkausObjekti = new Muokkaus();
         var kommenttiMenu = new ConsoleMenu(args, 4)
-            .Add("poista", () => Console.WriteLine("ei vielä tehty"))
+            .Add("Sensuroi Kommentti", () => muokkausObjekti.sensuroiKommentti())
             .Add("Sub_Close", ConsoleMenu.Close)
                     .Configure(config =>
                     {
@@ -21,8 +22,10 @@ class Valikot
     }
     public ConsoleMenu kommentitMenu(string[] args, ConsoleMenu kommenttiMenu)
     {
+        var muokkausObjekti = new Muokkaus();
         var kommentitMenu = new ConsoleMenu(args, 3)
         .AddRange(TietojenNäyttäminen.NäytäKommentitValikko( kommenttiMenu))
+        .Add("päivitä kommentit", (thisMenu) => muokkausObjekti.PäivitäKommenttiValikko(thisMenu))
         .Add("Sub_Close", ConsoleMenu.Close)
                     .Configure(config =>
                     {
@@ -99,7 +102,6 @@ class Valikot
         var käyttäjäMenu = new ConsoleMenu(args, level: 0)
           .Add("Näytä kaikki ravintolat", ravintolatMenu.Show)
           .Add("Näytä 3 parhaiten arvosteltua ravintolaa", top3Menu.Show)
-          .Add("Näytä kommentit", () => kommentitMenu.Show())
           .Add("Change me", (thisMenu) => thisMenu.CurrentItem.Name = "I am changed!")
           //.Add("Close", ConsoleMenu.Close)
           .Add("Exit", () => Environment.Exit(0))

@@ -1,6 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using ConsoleTools;
 using Lounasprojekti.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 //b.IlmoittauduLounaalle(2, 2);
 
 class Muokkaus
@@ -265,5 +267,55 @@ class Muokkaus
         };
         db.Käyttäjäs.Add(uusi);
         db.SaveChanges();
+    }
+
+    public void sensuroiKommentti()
+    {
+        var id = TietojenNäyttäminen.ArvioID;
+        var kysely = (from i in db.Arvios
+                     where i.ArvioId == id
+                     select i).First();
+        if (kysely != null)
+        {
+            kysely.Kommentti = "sensuroitu";
+            EntityState tila = db.Entry<Arvio>(kysely).State;
+            Debug.WriteLine(tila);
+            db.SaveChanges();
+        }
+    }
+
+    public List<string> LuoKommentitValikkoLista()
+    {
+        var valikkoLista = new List<string>();
+        var kysely = from i in db.Arvios
+                     join i2 in db.Käyttäjäs on i.KäyttäjäId equals i2.KäyttäjäId
+                     orderby i.Päivämäärä descending
+                     select new { käyttäjänimi = i2.Käyttäjänimi, kommentti = i.Kommentti, päivämäärä = i.Päivämäärä };
+
+        foreach (var item in kysely)
+        {
+            var valikkoNimi = $"{item.käyttäjänimi.PadRight(20)}{item.päivämäärä.ToString().PadRight(30)}{item.kommentti}";
+            valikkoLista.Add(valikkoNimi);
+        }
+        return valikkoLista;
+    }
+
+    public void PäivitäKommenttiValikko(ConsoleMenu con)
+    {
+        var valikkoLista = LuoKommentitValikkoLista();
+        var index = 0;
+        foreach (var item in con.Items)
+        {
+            try
+            {
+                item.Name = valikkoLista[index];
+                index++;
+            }
+            catch (System.ArgumentOutOfRangeException)
+            {
+                item.Name = item.Name;
+                index++;
+            }
+        }
     }
 }
