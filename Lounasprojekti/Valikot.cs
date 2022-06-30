@@ -22,10 +22,10 @@ class Valikot
     }
     public ConsoleMenu kommentitMenu(string[] args, ConsoleMenu kommenttiMenu)
     {
-        var muokkausObjekti = new Muokkaus();
+        var valikkojenPäivitysObjekti = new ValikkojenPäivitys();
         var kommentitMenu = new ConsoleMenu(args, 3)
         .AddRange(TietojenNäyttäminen.NäytäKommentitValikko( kommenttiMenu))
-        .Add("päivitä kommentit", (thisMenu) => muokkausObjekti.PäivitäKommenttiValikko(thisMenu))
+        .Add("päivitä kommentit", (thisMenu) => valikkojenPäivitysObjekti.PäivitäKommenttiValikko(thisMenu))
         .Add("Sub_Close", ConsoleMenu.Close)
                     .Configure(config =>
                     {
@@ -42,7 +42,7 @@ class Valikot
         var kyselyObjekti = new Kyselyt();
         var muokkausObjekti = new Muokkaus();
         var ravintolaSubMenu = new ConsoleMenu(args, level: 2)
-            .Add("Ilmoittaudu lounasseuraksi", () => muokkausObjekti.IlmoittauduLounaalle(TietojenNäyttäminen.RavintolaID, kirjautuminen.KäyttäjäId, DateTime.Today))
+            .Add("Ilmoittaudu lounasseuraksi", () => muokkausObjekti.IlmoittauduLounaalle(TietojenNäyttäminen.RavintolaID, kirjautuminen.KäyttäjäId))
             .Add("Arvioi lounasravintola", () => muokkausObjekti.LisääArvio(TietojenNäyttäminen.RavintolaID, kirjautuminen.KäyttäjäId))
             .Add("Näytä ruokailijat", () => TietojenNäyttäminen.NäytäRavintolanRuokailijat(TietojenNäyttäminen.RavintolaID))
             .Add("Näytä Arvostelut", () => TietojenNäyttäminen.NäytäRavintolanArvostelut(TietojenNäyttäminen.RavintolaID))
@@ -61,10 +61,10 @@ class Valikot
     public ConsoleMenu ravintolatMenu(string[] args, Kirjautuminen kirjautuminen, ConsoleMenu ravintolatSubMenu)
     {
         var kyselyObjekti = new Kyselyt();
-        var muokkausObjekti = new Muokkaus();
+        var valikkojenPäivitysObjekti = new ValikkojenPäivitys();
         var ravintolatMenu = new ConsoleMenu(args, level: 1)
           .AddRange(kyselyObjekti.LuoRavintolatValikko(ravintolatSubMenu))
-          .Add("päivitä ravintolat", (thisMenu) => muokkausObjekti.PäivitäRavintolatValikko(thisMenu))
+          .Add("päivitä ravintolat", (thisMenu) => valikkojenPäivitysObjekti.PäivitäRavintolatValikko(thisMenu))
           .Add("Sub_Close", ConsoleMenu.Close)
           .Configure(config =>
       {
