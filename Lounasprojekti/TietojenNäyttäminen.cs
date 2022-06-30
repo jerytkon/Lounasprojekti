@@ -8,6 +8,7 @@ static class TietojenNäyttäminen
     public static string RavintolaNimi { get; set; }
     public static int RavintolaID { get; set; }
     public static int ArvioID { get; set; }
+    public static int KäyttäjäID { get; set; }
 
 
     static LounasDBContext db = new LounasDBContext();
@@ -50,6 +51,16 @@ static class TietojenNäyttäminen
                       select i.ArvioId).First();
 
         ArvioID = kysely;
+
+    }
+
+    public static void PäivitäKäyttäjäId(int käyttäjäId)
+    {
+        var kysely = (from i in db.Käyttäjäs
+                      where i.KäyttäjäId == käyttäjäId
+                      select i.KäyttäjäId).First();
+
+        KäyttäjäID = kysely;
 
     }
 
@@ -130,7 +141,7 @@ static class TietojenNäyttäminen
         Console.Clear();
         var valikot = new Valikot();
         Console.WriteLine(valikot.appAscii);
-        Console.WriteLine(RavintolaNimi.PadLeft(33) + Environment.NewLine);
+        Console.WriteLine("                       " + RavintolaNimi + Environment.NewLine);
         foreach (var item in kommenttiLista)
         {
             Console.WriteLine(item);
@@ -150,6 +161,7 @@ static class TietojenNäyttäminen
             var valikkoNimi = $"{item.Käyttäjänimi.PadRight(20)}ID: {item.KäyttäjäId.ToString()}";
             map.Add(Tuple.Create<string, Action>(valikkoNimi, () =>
             {
+                TietojenNäyttäminen.PäivitäKäyttäjäId(item.KäyttäjäId);
                 con.Show();
             }));
         }

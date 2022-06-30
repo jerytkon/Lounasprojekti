@@ -15,7 +15,7 @@ var kommentitMenu = valikot.kommentitMenu(args, kommenttiMenu);
 var ravintolatSubMenu = valikot.ravintolaSubMenu(args, kirjautuminen);
 var ravintolatMenu = valikot.ravintolatMenu(args, kirjautuminen, ravintolatSubMenu);
 var top3Menu = valikot.top3Menu(args, kirjautuminen, ravintolatSubMenu);
-var käyttäjänPoistoMenu = valikot.KäyttäjänPoistoMenu(args);
+var käyttäjänPoistoMenu = valikot.KäyttäjänMuokkausMenu(args);
 var listaaKäyttäjätMenu = valikot.ListaaKäyttäjätMenu(args, käyttäjänPoistoMenu);
 
 if (kirjautuminen.OnAdmin == 0)
