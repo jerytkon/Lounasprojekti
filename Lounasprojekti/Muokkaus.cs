@@ -81,12 +81,13 @@ class Muokkaus
 
     public void LisääArvio(int ravintolaId, int käyttäjäId)
     {
+        int arvosana;
 
         Console.Write($"Anna arvosana 1-5 ravintolalle:");
-        var arvosana = int.Parse(Console.ReadLine());
-        if (arvosana < 1 || arvosana > 5)
+        var arvosanaOnOk = int.TryParse(Console.ReadLine(), out arvosana);
+        if (!arvosanaOnOk || arvosana < 1 || arvosana > 5)
         {
-            Console.WriteLine("Arvosanan tulee olla väliltä 1-5, yritä uudelleen");
+            Console.WriteLine("Arviota ei lisätty - arvosanan tulee olla väliltä 1-5. Palaa takaisin painamalla enter");
             Console.ReadLine();
             return;
         }
