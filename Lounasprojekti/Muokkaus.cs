@@ -193,9 +193,13 @@ class Muokkaus
 
     public void IlmoittauduLounaalle(int ravintolaId, int käyttäjäId)
     {
+
         var lounastapahtumaId = (from i in db.Lounastapahtumas
                                  where i.RavintolaId == ravintolaId && i.Päivämäärä == DateTime.Today
                                  select i.LounastapahtumaId).FirstOrDefault();
+
+
+
 
         if (lounastapahtumaId == 0)
         {
@@ -211,6 +215,24 @@ class Muokkaus
                 LounastapahtumaId = lounastapahtumaId,
                 KäyttäjäId = käyttäjäId
             };
+
+
+
+            var onJoIlmoittautunut = (from i in db.Lounasseuras
+                                      where lounastapahtumaId == i.LounastapahtumaId
+                                      select i.KäyttäjäId).ToList();
+
+            if (onJoIlmoittautunut.Contains(käyttäjäId))
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Olet jo ilmoittautunut mukaan lounaalle");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.ReadLine();
+                return;
+            }
+
+
 
             db.Lounasseuras.Add(uusi);
             db.SaveChanges();
@@ -238,6 +260,20 @@ class Muokkaus
                 LounastapahtumaId = lounastapahtumaId,
                 KäyttäjäId = käyttäjäId
             };
+
+            var onJoIlmoittautunut = (from i in db.Lounasseuras
+                                      where lounastapahtumaId == i.LounastapahtumaId
+                                      select i.KäyttäjäId).ToList();
+
+            if (onJoIlmoittautunut.Contains(käyttäjäId))
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Olet jo ilmoittautunut mukaan lounaalle");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.ReadLine();
+                return;
+            }
 
             db.Lounasseuras.Add(uusi);
             db.SaveChanges();
