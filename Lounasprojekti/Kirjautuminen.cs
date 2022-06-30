@@ -16,7 +16,7 @@ class Kirjautuminen
         {
             if (KäyttäjäNimi == null)
             {
-                Console.Write("Anna käyttäjänimi");
+                Console.Write("Anna käyttäjänimi: ");
                 KäyttäjäNimi = Console.ReadLine();
             }
 
