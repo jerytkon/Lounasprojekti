@@ -8,6 +8,8 @@ using ConsoleTools;
 
 var valikot = new Valikot();
 var kirjautuminen = new Kirjautuminen();
+kirjautuminen.Kirjaudu();
+
 var kommenttiMenu = valikot.kommenttiMenu(args);
 var kommentitMenu = valikot.kommentitMenu(args, kommenttiMenu);
 var ravintolatSubMenu = valikot.ravintolaSubMenu(args, kirjautuminen);
@@ -15,10 +17,6 @@ var ravintolatMenu = valikot.ravintolatMenu(args, kirjautuminen, ravintolatSubMe
 var top3Menu = valikot.top3Menu(args, kirjautuminen, ravintolatSubMenu);
 var käyttäjänPoistoMenu = valikot.KäyttäjänMuokkausMenu(args);
 var listaaKäyttäjätMenu = valikot.ListaaKäyttäjätMenu(args, käyttäjänPoistoMenu);
-
-
-
-kirjautuminen.Kirjaudu();
 
 if (kirjautuminen.OnAdmin == 0)
 {
