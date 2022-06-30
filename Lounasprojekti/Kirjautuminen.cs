@@ -50,6 +50,7 @@ class Kirjautuminen
 
             if (KäyttäjäId == 0)
             {
+                Console.WriteLine();
                 Console.WriteLine($"Luodaanko uusi käyttäjä nimellä \"{KäyttäjäNimi}\"");
                 Console.WriteLine("Vastaa Y/N");
                 ConsoleKeyInfo näppäin;
@@ -58,19 +59,16 @@ class Kirjautuminen
                 {
                     Console.WriteLine();
                     muokkausObjekti.LisääUusiKäyttäjä(KäyttäjäNimi);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Olet nyt kirjautunut. Paina enter");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.ReadLine();
                 }
                 if (näppäin.Key == ConsoleKey.N)
                 {
                     KäyttäjäNimi = null;
                     Console.WriteLine();
                     continue;
-                }
-                else
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Olet nyt kirjautunut. Paina enter");
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.ReadLine();
                 }
             }
         }
