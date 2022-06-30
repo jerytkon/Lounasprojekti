@@ -22,7 +22,7 @@ class Valikot
     public ConsoleMenu kommentitMenu(string[] args, ConsoleMenu kommenttiMenu)
     {
         var kommentitMenu = new ConsoleMenu(args, 3)
-        .AddRange(TietojenNäyttäminen.NäytäKommentitValikko( kommenttiMenu))
+        .AddRange(TietojenNäyttäminen.NäytäKommentitValikko(kommenttiMenu))
         .Add("Sub_Close", ConsoleMenu.Close)
                     .Configure(config =>
                     {

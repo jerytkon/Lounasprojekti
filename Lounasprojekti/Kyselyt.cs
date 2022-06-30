@@ -60,8 +60,8 @@ class Kyselyt
 
     public List<string> HaeRavintolanTiedot(int ravintolaID)
     {
-        // Lisää ravintolan kommentit listan loppuun
         var ravintola = db.Ravintolas.Find(ravintolaID);
+
         var kysely1 = (from i in db.Arvios
                        where i.RavintolaId == ravintolaID
                        select i.Arvosana).Average();
@@ -74,6 +74,7 @@ class Kyselyt
         lista.Add(ravintola.Postinumero);
         lista.Add(ravintola.Postitoimipaikka);
         lista.Add(ravintola.Verkkosivu);
+
         return lista;
     }
     public List<string> HaeRuokailijat(int ravintolaID)
