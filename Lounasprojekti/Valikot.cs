@@ -19,7 +19,7 @@ class Valikot
     {
         var muokkausObjekti = new Muokkaus();
         var kommenttiMenu = new ConsoleMenu(args, 4)
-            .Add("Sensuroi Kommentti", () => muokkausObjekti.sensuroiKommentti())
+            .Add("Sensuroi kommentti", () => muokkausObjekti.sensuroiKommentti())
             .Add("Takaisin", ConsoleMenu.Close)
                     .Configure(config =>
                     {
@@ -28,6 +28,7 @@ class Valikot
                         config.Title = appAscii;
                         config.EnableBreadcrumb = true;
                         config.WriteBreadcrumbAction = titles => Console.WriteLine(string.Join(" / ", titles));
+                        config.WriteHeaderAction = () => Console.WriteLine("Valitse toiminto: ");
                     }
                     );
         return kommenttiMenu;
@@ -46,6 +47,7 @@ class Valikot
                         config.Title = appAscii;
                         config.EnableBreadcrumb = true;
                         config.WriteBreadcrumbAction = titles => Console.WriteLine(string.Join(" / ", titles));
+                        config.WriteHeaderAction = () => Console.WriteLine("Valitse kommentti: ");
                     });
         return kommentitMenu;
     }
@@ -146,6 +148,7 @@ class Valikot
       config.Title = appAscii;
       config.EnableWriteTitle = false;
       config.EnableBreadcrumb = true;
+      config.WriteHeaderAction = () => Console.WriteLine("Valitse toiminto: ");
   });
         return adminMenu;
     }
