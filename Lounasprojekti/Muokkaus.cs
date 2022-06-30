@@ -243,7 +243,17 @@ class Muokkaus
             EntityState tila = db.Entry<Arvio>(kysely).State;
             Debug.WriteLine(tila);
             db.SaveChanges();
+
+            var valikko = new Valikot();
+            Console.Clear();
+            Console.WriteLine(valikko.appAscii);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"Kommentti sensuroitu");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Paina enter palataksesi takaisin");
+            Console.ReadLine();
         }
+
     }
 
     public void SensuroiKäyttäjä()
@@ -254,7 +264,10 @@ class Muokkaus
 
         käyttäjä.Käyttäjänimi = "*Nimi sensuroitu*";
         db.SaveChanges();
+
+        var valikko = new Valikot();
         Console.Clear();
+        Console.WriteLine(valikko.appAscii);
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine($"Käyttäjänimi sensuroitu");
         Console.ForegroundColor = ConsoleColor.White;
