@@ -42,7 +42,7 @@ class Valikot
             .Add("Ilmoittaudu lounasseuraksi", () => muokkausObjekti.IlmoittauduLounaalle(TietojenNäyttäminen.RavintolaID, kirjautuminen.KäyttäjäId, DateTime.Today))
             .Add("Arvioi lounasravintola", () => muokkausObjekti.LisääArvio(TietojenNäyttäminen.RavintolaID, kirjautuminen.KäyttäjäId))
             .Add("Näytä ruokailijat", () => TietojenNäyttäminen.NäytäRavintolanRuokailijat(TietojenNäyttäminen.RavintolaID))
-            .Add("Näytä kommenti", () => Console.WriteLine("Ei vielä implementoitu"))
+            .Add("Näytä Arvostelut", () => TietojenNäyttäminen.NäytäRavintolanArvostelut(TietojenNäyttäminen.RavintolaID))
             .Add("Sub_Close", ConsoleMenu.Close)
             .Configure(config =>
     {
