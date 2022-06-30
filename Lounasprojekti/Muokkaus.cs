@@ -76,18 +76,20 @@ class Muokkaus
 
         db.Arvios.Add(uusi);
         db.SaveChanges();
-        Console.WriteLine("Arvio lisätty");
+        Console.Clear();
+        Console.WriteLine("Arvio lisätty. Paina enter");
         Console.ReadLine();
     }
 
     public void LisääArvio(int ravintolaId, int käyttäjäId)
     {
+        int arvosana;
 
         Console.Write($"Anna arvosana 1-5 ravintolalle:");
-        var arvosana = int.Parse(Console.ReadLine());
-        if (arvosana < 1 || arvosana > 5)
+        var arvosanaOnOk = int.TryParse(Console.ReadLine(), out arvosana);
+        if (!arvosanaOnOk || arvosana < 1 || arvosana > 5)
         {
-            Console.WriteLine("Arvosanan tulee olla väliltä 1-5, yritä uudelleen");
+            Console.WriteLine("Arviota ei lisätty - arvosanan tulee olla väliltä 1-5. Palaa takaisin painamalla enter");
             Console.ReadLine();
             return;
         }
@@ -112,7 +114,8 @@ class Muokkaus
 
         db.Arvios.Add(uusi);
         db.SaveChanges();
-        Console.WriteLine("Arvio lisätty");
+        Console.Clear();
+        Console.WriteLine("Arvio lisätty. Paina enter");
         Console.ReadLine();
     }
 
@@ -195,14 +198,19 @@ class Muokkaus
 
     public void IlmoittauduLounaalle(int ravintolaId, int käyttäjäId)
     {
+
         var lounastapahtumaId = (from i in db.Lounastapahtumas
                                  where i.RavintolaId == ravintolaId && i.Päivämäärä == DateTime.Today
                                  select i.LounastapahtumaId).FirstOrDefault();
 
+
+
+
         if (lounastapahtumaId == 0)
         {
             AloitaLounastapahtuma(ravintolaId, käyttäjäId);
-            Console.WriteLine("Lounastapahtuma luotu");
+            Console.Clear();
+            Console.WriteLine("Lounastapahtuma luotu. Paina enter");
             Console.ReadLine();
 
         }
@@ -214,9 +222,28 @@ class Muokkaus
                 KäyttäjäId = käyttäjäId
             };
 
+
+
+            var onJoIlmoittautunut = (from i in db.Lounasseuras
+                                      where lounastapahtumaId == i.LounastapahtumaId
+                                      select i.KäyttäjäId).ToList();
+
+            if (onJoIlmoittautunut.Contains(käyttäjäId))
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Olet jo ilmoittautunut mukaan lounaalle");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.ReadLine();
+                return;
+            }
+
+
+
             db.Lounasseuras.Add(uusi);
             db.SaveChanges();
-            Console.WriteLine("Sinut on lisätty lounaalle");
+            Console.Clear();
+            Console.WriteLine("Sinut on lisätty lounaalle. Paina enter");
             Console.ReadLine();
         }
     }
@@ -230,7 +257,8 @@ class Muokkaus
         if (lounastapahtumaId == 0)
         {
             AloitaLounastapahtuma(ravintolaId, käyttäjäId, pvm);
-            Console.WriteLine("Lounastapahtuma luotu");
+            Console.Clear();
+            Console.WriteLine("Lounastapahtuma luotu. Paina enter");
             Console.ReadLine();
         }
         else
@@ -241,21 +269,26 @@ class Muokkaus
                 KäyttäjäId = käyttäjäId
             };
 
+            var onJoIlmoittautunut = (from i in db.Lounasseuras
+                                      where lounastapahtumaId == i.LounastapahtumaId
+                                      select i.KäyttäjäId).ToList();
+
+            if (onJoIlmoittautunut.Contains(käyttäjäId))
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Olet jo ilmoittautunut mukaan lounaalle");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.ReadLine();
+                return;
+            }
+
             db.Lounasseuras.Add(uusi);
             db.SaveChanges();
-            Console.WriteLine("Sinut on lisätty lounaalle");
+            Console.Clear();
+            Console.WriteLine("Sinut on lisätty lounaalle. Paina enter");
             Console.ReadLine();
         }
-
-    }
-
-    public void IlmoittauduLounaalle(string ravintolanNimi, int käyttäjäId)
-    {
-        var kysely = (from i in db.Ravintolas
-                      where i.RavintolanNimi == ravintolanNimi
-                      select i.RavintolaId).FirstOrDefault();
-
-        IlmoittauduLounaalle(kysely, käyttäjäId);
 
     }
 

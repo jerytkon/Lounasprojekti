@@ -55,6 +55,7 @@ static class TietojenNäyttäminen
 
     public static void NäytäRavintolanRuokailijat(int RavintolaID)
     {
+        Console.Clear();
         Kyselyt kysely = new Kyselyt();
         var Ruokailijat = kysely.HaeRuokailijatTänään(RavintolaID);
         if (Ruokailijat.Count == 0)
