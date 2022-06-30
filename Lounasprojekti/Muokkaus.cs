@@ -2,6 +2,7 @@
 using Lounasprojekti.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Linq;
 //b.IlmoittauduLounaalle(2, 2);
 
 class Muokkaus
@@ -153,6 +154,64 @@ class Muokkaus
     }
 
  
+    public void PoistaRavintola(int RavintolaID)
+    {
+        PoistaArviotRavintolalle(RavintolaID);
+        PoistaLounasTapahtumat(RavintolaID);
+        var ravintola = db.Ravintolas.Find(RavintolaID);
+        db.Ravintolas.Remove(ravintola);
+        db.SaveChanges();
+        Console.WriteLine("Ravintola poistettu. Käynnistä uudelleen nähdäksesi muutos. Paina enter jatkaaksesi");
+        Console.ReadLine();
+    }
+
+    public void PoistaArviotRavintolalle(int RavintolaID)
+    {
+        var kysely = from i in db.Arvios
+                     where i.RavintolaId == RavintolaID
+                     select i;
+        foreach (var item in kysely)
+        {
+            db.Arvios.Remove(item);
+        }
+        db.SaveChanges();
+    }
+
+    public void PoistaLounasTapahtumat(int RavintolaID)
+    {
+        PoistaLounasSeuras(RavintolaID);
+        var kysely = from i in db.Lounastapahtumas
+                     where i.RavintolaId == RavintolaID
+                     select i;
+        foreach (var item in kysely)
+        {
+            db.Lounastapahtumas.Remove(item);
+           
+        }
+        db.SaveChanges();
+    }
+
+    public void PoistaLounasSeuras(int RavintolaID)
+    {
+        List<int> list = new List<int>() { };
+        var kysely = (from i in db.Lounastapahtumas
+                     where i.RavintolaId == RavintolaID
+                     select i.LounastapahtumaId).ToList();
+        foreach (var item in kysely)
+            list.Add(item);
+        var kysely2 = from i in db.Lounasseuras
+                       where list.Contains((int)i.LounastapahtumaId)
+                       select i;
+
+        foreach (var item in kysely2)
+        {
+                db.Lounasseuras.Remove(item);
+
+        }
+        db.SaveChanges();
+    }
+
+
     public void LisääUusiKäyttäjä(string käyttäjänimi)
     {
         var uusi = new Käyttäjä()
