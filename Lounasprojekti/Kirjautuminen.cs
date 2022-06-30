@@ -18,6 +18,26 @@ class Kirjautuminen
             {
                 Console.Write("Anna käyttäjänimi: ");
                 KäyttäjäNimi = Console.ReadLine();
+                if (KäyttäjäNimi.Length < 2)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Käyttäjänimen tulee olla vähintään 2 merkkiä pitkä");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine("Yritä uudelleen");
+                    KäyttäjäNimi = null;
+                    continue;
+
+                }
+                if (KäyttäjäNimi.Length > 20)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Käyttäjänimen tulee olla korkeintaan 20 merkkiä pitkä");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine("Yritä uudelleen");
+                    KäyttäjäNimi = null;
+                    continue;
+
+                }
             }
 
             KäyttäjäId = (from i in db.Käyttäjäs
@@ -28,17 +48,26 @@ class Kirjautuminen
 
             if (KäyttäjäId == 0)
             {
-                Console.WriteLine($"Luodaanko uusi käyttäjä nimellä{KäyttäjäNimi}");
+                Console.WriteLine($"Luodaanko uusi käyttäjä nimellä \"{KäyttäjäNimi}\"");
                 Console.WriteLine("Vastaa Y/N");
-                if (Console.ReadKey().Key == ConsoleKey.Y)
-                    muokkausObjekti.LisääUusiKäyttäjä(KäyttäjäNimi);
-                if (Console.ReadKey().Key == ConsoleKey.N)
+                ConsoleKeyInfo näppäin;
+                näppäin = Console.ReadKey();
+                if (näppäin.Key == ConsoleKey.Y)
                 {
+                    Console.WriteLine();
+                    muokkausObjekti.LisääUusiKäyttäjä(KäyttäjäNimi);
+                }
+                if (näppäin.Key == ConsoleKey.N)
+                {
+                    KäyttäjäNimi = null;
+                    Console.WriteLine();
                     continue;
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Olet nyt kirjautunut. Paina enter");
+                    Console.ForegroundColor = ConsoleColor.White;
                     Console.ReadLine();
                 }
             }
