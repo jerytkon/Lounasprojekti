@@ -135,5 +135,21 @@ static class TietojenNäyttäminen
         Console.ReadLine();
     }
 
+    public static List<Tuple<string, Action>> ListaaKäyttäjät(ConsoleMenu con)
+    {
+        List<Tuple<string, Action>> map = new List<Tuple<string, Action>>();
+        var kysely = (from i in db.Käyttäjäs
+                      select i).ToList();
 
+        foreach (var item in kysely)
+        {
+            var valikkoNimi = $"{item.Käyttäjänimi.PadRight(20)}ID: {item.KäyttäjäId.ToString()}";
+            map.Add(Tuple.Create<string, Action>(valikkoNimi, () =>
+            {
+                con.Show();
+            }));
+        }
+
+        return map;
+    }
 }

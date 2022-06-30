@@ -37,7 +37,7 @@ class Valikot
     {
         var valikkojenPäivitysObjekti = new ValikkojenPäivitys();
         var kommentitMenu = new ConsoleMenu(args, 3)
-        .AddRange(TietojenNäyttäminen.NäytäKommentitValikko( kommenttiMenu))
+        .AddRange(TietojenNäyttäminen.NäytäKommentitValikko(kommenttiMenu))
         .Add("Päivitä kommentit", (thisMenu) => valikkojenPäivitysObjekti.PäivitäKommenttiValikko(thisMenu))
         .Add("Takaisin", ConsoleMenu.Close)
                     .Configure(config =>
@@ -132,13 +132,14 @@ class Valikot
       });
         return käyttäjäMenu;
     }
-    public ConsoleMenu adminMenu(string[] args, ConsoleMenu ravintolatMenu, ConsoleMenu kommentitMenu)
+    public ConsoleMenu adminMenu(string[] args, ConsoleMenu ravintolatMenu, ConsoleMenu kommentitMenu, ConsoleMenu listaaKäyttäjätMenu)
     {
         var kyselyObjekti = new Kyselyt();
         var muokkausObjekti = new Muokkaus();
         var adminMenu = new ConsoleMenu(args, level: 0)
             .Add("Näytä ravintolat", ravintolatMenu.Show)
             .Add("Näytä kommentit", () => kommentitMenu.Show())
+            .Add("Käyttäjien hallinta", () => listaaKäyttäjätMenu.Show())
             .Add("Lisää ravintola", () => muokkausObjekti.LisääRavintola())
             .Add("Sulje", () => Environment.Exit(0))
   .Configure(config =>
@@ -152,5 +153,48 @@ class Valikot
   });
         return adminMenu;
     }
+
+    public ConsoleMenu KäyttäjänPoistoMenu(string[] args)
+    {
+        var kyselyObjekti = new Kyselyt();
+        var muokkausObjekti = new Muokkaus();
+        var käyttäjänpoistoMenu = new ConsoleMenu(args, level: 2)
+          .Add("Poista käyttäjä", () => Console.WriteLine("poista käyttäjä"))
+          .Add("Takaisin", ConsoleMenu.Close)
+      //.Add("Exit", () => Environment.Exit(0))
+      .Configure(config =>
+      {
+          config.Selector = "--> ";
+          config.EnableFilter = false;
+          config.Title = "Käyttäjän hallinta";
+          config.EnableWriteTitle = true;
+          config.EnableBreadcrumb = true;
+      });
+        return käyttäjänpoistoMenu;
+    }
+
+
+
+    public ConsoleMenu ListaaKäyttäjätMenu(string[] args, ConsoleMenu käyttäjänPoistoMenu)
+    {
+        var kyselyObjekti = new Kyselyt();
+        var muokkausObjekti = new Muokkaus();
+        var ListaaKäyttäjätMenu = new ConsoleMenu(args, level: 1)
+            .AddRange(TietojenNäyttäminen.ListaaKäyttäjät(käyttäjänPoistoMenu))
+            .Add("Takaisin", ConsoleMenu.Close)
+  .Configure(config =>
+  {
+      config.Selector = "--> ";
+      config.EnableFilter = false;
+      config.Title = "Käyttäjien hallinta";
+      config.EnableWriteTitle = true;
+      config.EnableBreadcrumb = true;
+  });
+        return ListaaKäyttäjätMenu;
+    }
+
+
+
+
 }
 
