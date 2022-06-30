@@ -20,7 +20,7 @@ static class TietojenNäyttäminen
         Console.WriteLine("".PadRight(9) + RavintolaNimi);
         Console.WriteLine();
         Console.WriteLine("Kategoria:".PadRight(15) + ravintolanTiedot[1]);
-        Console.WriteLine("Keskiarvo:".PadRight(15) + ravintolanTiedot[2]);
+        Console.WriteLine("Keskiarvo:".PadRight(15) + string.Format("{0:F1}", ravintolanTiedot[2]));
         Console.WriteLine("Osoite:".PadRight(15) + ravintolanTiedot[3]);
         Console.WriteLine("".PadRight(15) + ravintolanTiedot[4]);
         Console.WriteLine("".PadRight(15) + ravintolanTiedot[5]);

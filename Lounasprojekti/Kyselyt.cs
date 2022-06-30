@@ -55,11 +55,11 @@ class Kyselyt
 
     public List<string> HaeRuokailijatTänään(int ravintolaID)
     {
-        var newDateTime = DateTime.Today.Date.ToString("yyyy-MM-dd");
+        var pvmMuokattu = DateTime.Today.Date.ToString("yyyy-MM-dd");
         var kysely = (from i in db.Lounastapahtumas
                       join i2 in db.Lounasseuras on i.LounastapahtumaId equals i2.LounastapahtumaId
                       join i3 in db.Käyttäjäs on i2.KäyttäjäId equals i3.KäyttäjäId
-                      where i.RavintolaId == ravintolaID && i.Päivämäärä.Date.ToString() == newDateTime
+                      where i.RavintolaId == ravintolaID && i.Päivämäärä.Date.ToString() == pvmMuokattu
                       select i3.Käyttäjänimi).ToList();
         return kysely;
     }
@@ -68,23 +68,6 @@ class Kyselyt
     {
         Dictionary<string, int> ruokailijatLkm = new Dictionary<string, int>();
         var pvmMuokattu = DateTime.Today.Date.ToString("yyyy-MM-dd");
-        var kysely = (from i in db.VSyömäänRekisteröityneets
-                      where i.Päivämäärä.ToString() == pvmMuokattu || i.Päivämäärä == null
-                      select i);
-
-        foreach (var item in kysely)
-        {
-            if (ruokailijatLkm.ContainsKey(item.RavintolanNimi))
-                continue;
-            ruokailijatLkm.Add(item.RavintolanNimi, Convert.ToInt32(item.SyömäänTulijat));
-        }
-        return ruokailijatLkm;
-    }
-
-    public Dictionary<string, int> HaeRuokailijatLkm(DateTime pvm)
-    {
-        Dictionary<string, int> ruokailijatLkm = new Dictionary<string, int>();
-        var pvmMuokattu = pvm.Date.ToString("yyyy-MM-dd");
         var kysely = (from i in db.VSyömäänRekisteröityneets
                       where i.Päivämäärä.ToString() == pvmMuokattu || i.Päivämäärä == null
                       select i);
@@ -127,7 +110,7 @@ class Kyselyt
         {
             // Luodaan string, jossa ravintolan nimi ja ruokailijoiden lukumäärä
             var ruokailijat = ruokailijatLkm[r.RavintolanNimi] > 0 ? $"{ruokailijatLkm[r.RavintolanNimi]} ruokailija{(ruokailijatLkm[r.RavintolanNimi] == 1 ? "" : "a")} tänään" : "";
-            var valikkoNimi = $"{r.RavintolanNimi.PadRight(30)} Keskiarvo: {r.Keskiarvo.ToString().PadRight(10)} {ruokailijat}";
+            var valikkoNimi = $"{r.RavintolanNimi.PadRight(30)} Keskiarvo: {string.Format("{0:F1}", r.Keskiarvo).PadRight(10)} {ruokailijat}";
 
             // Lisätään listaan valikon alaotsikko ja Action
             map.Add(Tuple.Create<string, Action>(valikkoNimi, () => TietojenNäyttäminen.NäytäRavintolanTiedot(HaeRavintolanTiedot(r.RavintolaId), con)));
@@ -135,6 +118,4 @@ class Kyselyt
 
         return map;
     }
-
-
 }
