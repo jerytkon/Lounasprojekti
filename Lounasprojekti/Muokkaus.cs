@@ -3,13 +3,12 @@ using LounasprojektiLib.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Linq;
+
 /** <summary>
  * Luokka jolla muokataan tietokantaa.
  * </summary> */
-
 public class Muokkaus
 {
-
     LounasDBContext db = new LounasDBContext();
 
     public void LisääArvio(int ravintolaId, int käyttäjäId)
@@ -53,7 +52,6 @@ public class Muokkaus
         Console.WriteLine("Arvio lisätty. Palaa takaisin painamalla enter");
         Console.ReadLine();
     }
-
 
     public void AloitaLounastapahtuma(int ravintolaId, int käyttäjäId)
     {
@@ -166,7 +164,6 @@ public class Muokkaus
             Console.ReadLine();
         }
     }
-
  
     public void PoistaRavintola(int RavintolaID)
     {
@@ -224,7 +221,6 @@ public class Muokkaus
         }
         db.SaveChanges();
     }
-
 
     public void LisääUusiKäyttäjä(string käyttäjänimi)
     {

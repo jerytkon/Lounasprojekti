@@ -4,6 +4,7 @@ using LounasprojektiLib.Models;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
+
 /** <summary>
  * Luokalla tulostetaan konsolille tietoa.
  * </summary> */
@@ -15,7 +16,6 @@ public static class TietojenNäyttäminen
     public static int KäyttäjäID { get; set; }
     public static string Verkkosivu { get; set; }
     public static string RuokalistaVerkkosivu { get; set; }
-
 
     static LounasDBContext db = new LounasDBContext();
 
@@ -83,10 +83,10 @@ public static class TietojenNäyttäminen
             Console.WriteLine($"Ravintolassa {RavintolaNimi} ei ruokailijoita tänään");
         else
             Console.WriteLine($"Ravintolassa {RavintolaNimi} tänään syömässä:" + Environment.NewLine);
-            foreach (var ruokailija in Ruokailijat)
-            {
-                Console.WriteLine(ruokailija);
-            }
+        foreach (var ruokailija in Ruokailijat)
+        {
+            Console.WriteLine(ruokailija);
+        }
         Console.WriteLine(Environment.NewLine + "***** Palaa takaisin painamalla enter *****");
         Console.ReadLine();
     }
@@ -176,16 +176,15 @@ public static class TietojenNäyttäminen
         return map;
     }
 
-
     public static void PäivitäRuokalistaVerkkosivu()
     {
         var kysely = (from i in db.Ravintolas
-                     where i.RavintolaId == RavintolaID
-                     select i.MenuUrl).First();
+                      where i.RavintolaId == RavintolaID
+                      select i.MenuUrl).First();
         RuokalistaVerkkosivu = kysely;
     }
 
-   public static void AvaaRuokalistaUrl()
+    public static void AvaaRuokalistaUrl()
     {
         PäivitäRuokalistaVerkkosivu();
         var url = RuokalistaVerkkosivu;

@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using ConsoleTools;
+
 /** <summary>
  * Luokalla luodaan valikot.
  * </summary> */
@@ -27,8 +28,7 @@ public class Valikot
                                                          /_/     /_/      
  ";
 
-
-    public ConsoleMenu kommenttiMenu(string[] args)
+    public ConsoleMenu KommenttiMenu(string[] args)
     {
         var muokkausObjekti = new Muokkaus();
         var kommenttiMenu = new ConsoleMenu(args, 4)
@@ -46,7 +46,8 @@ public class Valikot
                     );
         return kommenttiMenu;
     }
-    public ConsoleMenu kommentitMenu(string[] args, ConsoleMenu kommenttiMenu)
+
+    public ConsoleMenu KommentitMenu(string[] args, ConsoleMenu kommenttiMenu)
     {
         var valikkojenPäivitysObjekti = new ValikkojenPäivitys();
         var kommentitMenu = new ConsoleMenu(args, 3)
@@ -64,7 +65,8 @@ public class Valikot
                     });
         return kommentitMenu;
     }
-    public ConsoleMenu ravintolaSubMenu(string[] args, Kirjautuminen kirjautuminen)
+
+    public ConsoleMenu RavintolaSubMenu(string[] args, Kirjautuminen kirjautuminen)
     {
         var kyselyObjekti = new Kyselyt();
         var muokkausObjekti = new Muokkaus();
@@ -92,7 +94,7 @@ public class Valikot
         return ravintolaSubMenu;
     }
 
-    public ConsoleMenu ravintolatMenu(string[] args, Kirjautuminen kirjautuminen, ConsoleMenu ravintolatSubMenu)
+    public ConsoleMenu RavintolatMenu(string[] args, Kirjautuminen kirjautuminen, ConsoleMenu ravintolatSubMenu)
     {
         var kyselyObjekti = new Kyselyt();
         var valikkojenPäivitysObjekti = new ValikkojenPäivitys();
@@ -112,7 +114,7 @@ public class Valikot
         return ravintolatMenu;
     }
 
-    public ConsoleMenu top3Menu(string[] args, Kirjautuminen kirjautuminen, ConsoleMenu ravintolatSubMenu)
+    public ConsoleMenu Top3Menu(string[] args, Kirjautuminen kirjautuminen, ConsoleMenu ravintolatSubMenu)
     {
         var kyselyObjekti = new Kyselyt();
         var muokkausObjekti = new Muokkaus();
@@ -131,7 +133,7 @@ public class Valikot
         return top3Menu;
     }
 
-    public ConsoleMenu käyttäjäMenu(string[] args, ConsoleMenu ravintolatMenu, ConsoleMenu kommentitMenu, ConsoleMenu top3Menu)
+    public ConsoleMenu KäyttäjäMenu(string[] args, ConsoleMenu ravintolatMenu, ConsoleMenu kommentitMenu, ConsoleMenu top3Menu)
     {
         var kyselyObjekti = new Kyselyt();
         var muokkausObjekti = new Muokkaus();
@@ -151,7 +153,8 @@ public class Valikot
       });
         return käyttäjäMenu;
     }
-    public ConsoleMenu adminMenu(string[] args, ConsoleMenu ravintolatMenu, ConsoleMenu kommentitMenu, ConsoleMenu listaaKäyttäjätMenu)
+
+    public ConsoleMenu AdminMenu(string[] args, ConsoleMenu ravintolatMenu, ConsoleMenu kommentitMenu, ConsoleMenu listaaKäyttäjätMenu)
     {
         var kyselyObjekti = new Kyselyt();
         var muokkausObjekti = new Muokkaus();
@@ -193,8 +196,6 @@ public class Valikot
         return käyttäjänpoistoMenu;
     }
 
-
-
     public ConsoleMenu ListaaKäyttäjätMenu(string[] args, ConsoleMenu käyttäjänPoistoMenu)
     {
         var kyselyObjekti = new Kyselyt();
@@ -215,9 +216,6 @@ public class Valikot
   });
         return ListaaKäyttäjätMenu;
     }
-
-
-
 
 }
 
