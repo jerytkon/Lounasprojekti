@@ -13,21 +13,26 @@ public static class TietojenNäyttäminen
 
     static LounasDBContext db = new LounasDBContext();
 
-    public static void NäytäRavintolanTiedot(List<string> ravintolanTiedot, ConsoleMenu con)
+    public static void NäytäRavintolanTiedot(int ravintolanId, ConsoleMenu con)
     {
+        var ravintola = db.Ravintolas.Find(ravintolanId);
+
+        var kysely1 = (from i in db.Arvios
+                       where i.RavintolaId == ravintolanId
+                       select i.Arvosana).Average();
+
         var valikot = new Valikot();
-        PäivitäRavintolaId(ravintolanTiedot[0]);
-        RavintolaNimi = ravintolanTiedot[0];
+        PäivitäRavintolaId(ravintola.RavintolanNimi);
         Console.Clear();
         Console.WriteLine(valikot.appAscii);
-        Console.WriteLine("".PadRight(9) + RavintolaNimi);
+        Console.WriteLine("".PadRight(9) + ravintola.RavintolanNimi);
         Console.WriteLine();
-        Console.WriteLine("Kategoria:".PadRight(15) + ravintolanTiedot[1]);
-        Console.WriteLine("Keskiarvo:".PadRight(15) + string.Format("{0:F1}", ravintolanTiedot[2]));
-        Console.WriteLine("Osoite:".PadRight(15) + ravintolanTiedot[3]);
-        Console.WriteLine("".PadRight(15) + ravintolanTiedot[4]);
-        Console.WriteLine("".PadRight(15) + ravintolanTiedot[5]);
-        Console.WriteLine("Verkkosivu:".PadRight(15) + ravintolanTiedot[6]);
+        Console.WriteLine("Kategoria:".PadRight(15) + ravintola.Kategoria);
+        Console.WriteLine("Keskiarvo:".PadRight(15) + string.Format("{0:F1}", kysely1));
+        Console.WriteLine("Osoite:".PadRight(15) + ravintola.Osoite);
+        Console.WriteLine("".PadRight(15) + ravintola.Postinumero);
+        Console.WriteLine("".PadRight(15) + ravintola.Postitoimipaikka);
+        Console.WriteLine("Verkkosivu:".PadRight(15) + ravintola.Verkkosivu);
         Console.WriteLine();
         Console.WriteLine("***** Sulje tiedot painamalla enter *****");
         Console.ReadLine();

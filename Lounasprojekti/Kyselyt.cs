@@ -27,30 +27,10 @@ public class Kyselyt
             var valikkoNimi = $"{r.RavintolanNimi.PadRight(50)}{ruokailijat}";
 
             // Lisätään listaan valikon alaotsikko ja Action
-            map.Add(Tuple.Create<string, Action>(valikkoNimi, () => TietojenNäyttäminen.NäytäRavintolanTiedot(HaeRavintolanTiedot(r.RavintolaId), con)));
+            map.Add(Tuple.Create<string, Action>(valikkoNimi, () => TietojenNäyttäminen.NäytäRavintolanTiedot(r.RavintolaId, con)));
         }
 
         return map;
-    }
-
-    public List<string> HaeRavintolanTiedot(int ravintolaID)
-    {
-        var ravintola = db.Ravintolas.Find(ravintolaID);
-
-        var kysely1 = (from i in db.Arvios
-                       where i.RavintolaId == ravintolaID
-                       select i.Arvosana).Average();
-
-        var lista = new List<string>();
-        lista.Add(ravintola.RavintolanNimi);
-        lista.Add(ravintola.Kategoria);
-        lista.Add(kysely1.ToString());
-        lista.Add(ravintola.Osoite);
-        lista.Add(ravintola.Postinumero);
-        lista.Add(ravintola.Postitoimipaikka);
-        lista.Add(ravintola.Verkkosivu);
-
-        return lista;
     }
 
     public List<string> HaeRuokailijatTänään(int ravintolaID)
@@ -113,7 +93,7 @@ public class Kyselyt
             var valikkoNimi = $"{r.RavintolanNimi.PadRight(30)} Keskiarvo: {string.Format("{0:F1}", r.Keskiarvo).PadRight(10)} {ruokailijat}";
 
             // Lisätään listaan valikon alaotsikko ja Action
-            map.Add(Tuple.Create<string, Action>(valikkoNimi, () => TietojenNäyttäminen.NäytäRavintolanTiedot(HaeRavintolanTiedot(r.RavintolaId), con)));
+            map.Add(Tuple.Create<string, Action>(valikkoNimi, () => TietojenNäyttäminen.NäytäRavintolanTiedot(r.RavintolaId, con)));
         }
 
         return map;
