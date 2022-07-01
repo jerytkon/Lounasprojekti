@@ -1,0 +1,5 @@
+﻿Factory;Keilaranta 6;02150;Espoo;www.ravintolafactory.com;menuURL;Lounasbuffet
+Curry Palace; Keilaranta 5;02150;Espoo;www.currypalace.fi;menuURL;Intialainen
+Let's Play;Keilaranta 15 B;02150;Espoo;www.foodandco.fi/en/restaurants/Ravintolat-kaupungeittain/espoo/letsplay;menuURL;Pizzeria ja lounasbuffet
+Sodexo;Keilaranta 1;02150;Espoo;www.sodexo.fi/en/restaurants/keilaranta-1;menuURL;Lounasbuffet
+Fat Lizard;Tietotie 1;02150;Espoo;www.ravintolafatlizard.fi/espoo;menuURL;Panimo ja lounasbuffet
