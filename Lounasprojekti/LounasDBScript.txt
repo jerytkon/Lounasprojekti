@@ -94,11 +94,11 @@ from Ravintola
 GO
 -----------------RAVINTOLA------------ 
 
-INSERT [dbo].[Ravintola] ([RavintolanNimi], [Osoite], [Postinumero], [postitoimipaikka], [Verkkosivu], [MenuUrl], [Kategoria]) VALUES (N'Factory', N'Keilaranta 4', N'00123', N'Espoo', N'www.factofy.fi', N'www.factofy.fi/menu', N'Lounasbuffet') 
+INSERT [dbo].[Ravintola] ([RavintolanNimi], [Osoite], [Postinumero], [postitoimipaikka], [Verkkosivu], [MenuUrl], [Kategoria]) VALUES (N'Lucy in the Sky', N'Keilaniementie 1', N'00123', N'Espoo', N'www.lucyinthesky.fi', N'https://www.lucyinthesky.fi/lucy-lunch', N'A La Carte') 
 GO 
-INSERT [dbo].[Ravintola] ([RavintolanNimi], [Osoite], [Postinumero], [postitoimipaikka], [Verkkosivu], [Kategoria]) VALUES (N'Aasialainen vastapäätä', N'Keilaranta 5', N'00123', N'Espoo', N'www.nepalilaista.fi', N'Lounasbuffet') 
+INSERT [dbo].[Ravintola] ([RavintolanNimi], [Osoite], [Postinumero], [postitoimipaikka], [Verkkosivu], [MenuUrl], [Kategoria]) VALUES (N'Dylan & Friends', N'Keilaniementie 1', N'00123', N'Espoo', N'www.dylan.fi/keilaniemi', N'https://www.dylan.fi/keilaniemi', N'Lounasbuffet ja leipomo') 
 GO 
-INSERT [dbo].[Ravintola] ([RavintolanNimi], [Osoite], [Postinumero], [postitoimipaikka], [Verkkosivu], [Kategoria]) VALUES (N'Pitsapaikka', N'Keilaranta 1', N'00123', N'Espoo', N'www.pitsaa.fi', N'pitsapaikka') 
+INSERT [dbo].[Ravintola] ([RavintolanNimi], [Osoite], [Postinumero], [postitoimipaikka], [Verkkosivu], [MenuUrl], [Kategoria]) VALUES (N'Juurideli', N'Keilaranta 9', N'00123', N'Espoo', N'www.juurideli.fi/keilaranta', N'https://www.juurideli.fi/keilaranta', N'pitsapaikka') 
 GO 
 
  
