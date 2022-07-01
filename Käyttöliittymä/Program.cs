@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Lounasprojekti;
 using ConsoleTools;
 
+TiedostojenLukeminenSQL.LueKonsultit("..\\..\\..\\konsultit.txt");
+
 var valikot = new Valikot();
 var kirjautuminen = new Kirjautuminen();
 kirjautuminen.Kirjaudu();
