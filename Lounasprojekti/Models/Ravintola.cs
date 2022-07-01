@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Lounasprojekti.Models
+namespace LounasprojektiLib.Models
 {
     public partial class Ravintola
     {
@@ -17,6 +17,7 @@ namespace Lounasprojekti.Models
         public string? Postinumero { get; set; }
         public string? Postitoimipaikka { get; set; }
         public string? Verkkosivu { get; set; }
+        public string? MenuUrl { get; set; }
         public string? Kategoria { get; set; }
 
         public virtual ICollection<Arvio> Arvios { get; set; }

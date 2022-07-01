@@ -1,5 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using Lounasprojekti.Models;
+using LounasprojektiLib.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Linq;
@@ -103,6 +103,9 @@ public class Muokkaus
 
         Console.Write("Verkkosivu: ");
         uusi.Verkkosivu = Console.ReadLine();
+
+        Console.Write("Menu URL: ");
+        uusi.MenuUrl = Console.ReadLine();
 
         Console.Write("Kategoria: ");
         uusi.Kategoria = Console.ReadLine();

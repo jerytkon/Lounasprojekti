@@ -22,7 +22,8 @@ CREATE TABLE [dbo].[Ravintola](
 [Osoite] [varchar](50) NULL, 
 [postinumero] [char](5) NULL, 
 [postitoimipaikka] [varchar](20) NULL, 
-[Verkkosivu] [varchar](30) NULL, 
+[Verkkosivu] [varchar](200) NULL, 
+[MenuUrl] [varchar](300) NULL, 
 [Kategoria] [varchar](30) NULL) 
 GO 
 
@@ -93,7 +94,7 @@ from Ravintola
 GO
 -----------------RAVINTOLA------------ 
 
-INSERT [dbo].[Ravintola] ([RavintolanNimi], [Osoite], [Postinumero], [postitoimipaikka], [Verkkosivu], [Kategoria]) VALUES (N'Factory', N'Keilaranta 4', N'00123', N'Espoo', N'www.factofy.fi', N'Lounasbuffet') 
+INSERT [dbo].[Ravintola] ([RavintolanNimi], [Osoite], [Postinumero], [postitoimipaikka], [Verkkosivu], [MenuUrl], [Kategoria]) VALUES (N'Factory', N'Keilaranta 4', N'00123', N'Espoo', N'www.factofy.fi', N'www.factofy.fi/menu', N'Lounasbuffet') 
 GO 
 INSERT [dbo].[Ravintola] ([RavintolanNimi], [Osoite], [Postinumero], [postitoimipaikka], [Verkkosivu], [Kategoria]) VALUES (N'Aasialainen vastapäätä', N'Keilaranta 5', N'00123', N'Espoo', N'www.nepalilaista.fi', N'Lounasbuffet') 
 GO 

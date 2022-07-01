@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Lounasprojekti;
+using LounasprojektiLib;
 using ConsoleTools;
 
 TiedostojenLukeminenSQL.LueKonsultit("..\\..\\..\\konsultit.txt");
+TiedostojenLukeminenSQL.LueRavintolat("..\\..\\..\\ravintolat.txt");
 
 var valikot = new Valikot();
 var kirjautuminen = new Kirjautuminen();

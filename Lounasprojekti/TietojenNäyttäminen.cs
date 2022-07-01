@@ -1,8 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using ConsoleTools;
 using Lounasprojekti.Models;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Text;
 
 public static class TietojenNäyttäminen

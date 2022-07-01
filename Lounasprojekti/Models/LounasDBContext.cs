@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Lounasprojekti.Models
+namespace LounasprojektiLib.Models
 {
     public partial class LounasDBContext : DbContext
     {
@@ -77,7 +77,7 @@ namespace Lounasprojekti.Models
             modelBuilder.Entity<Lounasseura>(entity =>
             {
                 entity.HasKey(e => e.SeuraId)
-                    .HasName("PK__Lounasse__2579DBD0B74F9A73");
+                    .HasName("PK__Lounasse__2579DBD0623A8B06");
 
                 entity.ToTable("Lounasseura");
 
@@ -124,6 +124,10 @@ namespace Lounasprojekti.Models
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
+                entity.Property(e => e.MenuUrl)
+                    .HasMaxLength(300)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Osoite)
                     .HasMaxLength(50)
                     .IsUnicode(false);
@@ -144,7 +148,7 @@ namespace Lounasprojekti.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.Verkkosivu)
-                    .HasMaxLength(30)
+                    .HasMaxLength(200)
                     .IsUnicode(false);
             });
 

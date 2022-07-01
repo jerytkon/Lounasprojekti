@@ -1,6 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using ConsoleTools;
-using Lounasprojekti.Models;
+using LounasprojektiLib.Models;
 using System.Globalization;
 
 public class Kyselyt

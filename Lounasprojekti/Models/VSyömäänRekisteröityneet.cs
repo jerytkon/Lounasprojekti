@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Lounasprojekti.Models
+namespace LounasprojektiLib.Models
 {
     public partial class VSyömäänRekisteröityneet
     {
