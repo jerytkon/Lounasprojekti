@@ -1,6 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using ConsoleTools;
 using Lounasprojekti.Models;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Text;
 
 public static class TietojenNäyttäminen
@@ -9,6 +11,8 @@ public static class TietojenNäyttäminen
     public static int RavintolaID { get; set; }
     public static int ArvioID { get; set; }
     public static int KäyttäjäID { get; set; }
+    public static string Verkkosivu { get; set; }
+    public static string RuokalistaVerkkosivu { get; set; }
 
 
     static LounasDBContext db = new LounasDBContext();
@@ -173,4 +177,44 @@ public static class TietojenNäyttäminen
 
         return map;
     }
+
+
+    public static void PäivitäVerkkosivu()
+    {
+        var kysely = (from i in db.Ravintolas
+                     where i.RavintolaId == RavintolaID
+                     select i.Verkkosivu).First();
+        Verkkosivu = kysely;
+    }
+
+   public static void AvaaVerkkosivu()
+    {
+        PäivitäVerkkosivu();
+        var url = Verkkosivu;
+        try
+        {
+            Process.Start(url);
+        }
+        catch
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                url = url.Replace("&", "^&");
+                Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                Process.Start("xdg-open", url);
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                Process.Start("open", url);
+            }
+            else
+            {
+                throw;
+            }
+        }
+    }
+
 }
