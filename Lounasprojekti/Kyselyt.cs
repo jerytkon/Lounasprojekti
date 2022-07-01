@@ -84,7 +84,6 @@ public class Kyselyt
                            orderby i.Keskiarvo descending
                            select i).Take(3);
 
-
         // Luodaan Tuple-lista valikon AddRange()-metodia varten:
         //      valikon alaotsikko (string): Ravintolan nimi, ruokailijoiden lukumäärä sekä keskiarvo arvosteluista
         //      Action: Näyttää ravintolan tiedot

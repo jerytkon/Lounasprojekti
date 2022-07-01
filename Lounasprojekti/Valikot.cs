@@ -32,7 +32,7 @@ public class Valikot
     {
         var muokkausObjekti = new Muokkaus();
         var kommenttiMenu = new ConsoleMenu(args, 4)
-            .Add("Sensuroi kommentti", () => muokkausObjekti.sensuroiKommentti())
+            .Add("Sensuroi kommentti", () => muokkausObjekti.SensuroiKommentti())
             .Add("Takaisin", ConsoleMenu.Close)
                     .Configure(config =>
                     {
