@@ -73,7 +73,7 @@ public class Valikot
             .Add("Arvioi lounasravintola", () => muokkausObjekti.LisääArvio(TietojenNäyttäminen.RavintolaID, kirjautuminen.KäyttäjäId))
             .Add("Näytä ruokailijat", () => TietojenNäyttäminen.NäytäRavintolanRuokailijat(TietojenNäyttäminen.RavintolaID))
             .Add("Näytä arvostelut", () => TietojenNäyttäminen.NäytäRavintolanArvostelut(TietojenNäyttäminen.RavintolaID))
-            .Add("Avaa ravintolan verkkosivut", () => TietojenNäyttäminen.AvaaVerkkosivu())
+            .Add("Avaa päivän ruokalista selaimessa", () => TietojenNäyttäminen.AvaaRuokalistaUrl())
             .Add(kirjautuminen.OnAdmin == 1 ? "Poista ravintola" : "Admin ominaisuus", 
                 kirjautuminen.OnAdmin == 1 ? 
                 () => muokkausObjekti.PoistaRavintola(TietojenNäyttäminen.RavintolaID) : 
