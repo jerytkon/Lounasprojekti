@@ -193,6 +193,14 @@ public static class TietojenNäyttäminen
     {
         PäivitäRuokalistaVerkkosivu();
         var url = RuokalistaVerkkosivu;
+        if (String.IsNullOrEmpty(url))
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Ravintolalla ei tallennettua menu url osoitetta. Paina enter palataksesi.");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.ReadLine();
+            return;
+        }
         try
         {
             Process.Start(url);
@@ -212,13 +220,7 @@ public static class TietojenNäyttäminen
             {
                 Process.Start("open", url);
             }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Ravintolalla ei tallennettua menu url osoitetta. Paina enter palataksesi.");
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.ReadLine();
-            }
+
         }
     }
 
