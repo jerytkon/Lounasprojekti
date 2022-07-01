@@ -104,8 +104,7 @@ GO
  
 
 ------------------KÄYTTÄJÄ------------- 
-INSERT INTO Käyttäjä (Käyttäjänimi, OnAdmin) values ('Admin', 1);
-GO
+
 INSERT [dbo].[Käyttäjä] ([Käyttäjänimi]) VALUES ('JanneN') 
 GO 
 
@@ -115,6 +114,8 @@ GO
 INSERT [dbo].[Käyttäjä] ([Käyttäjänimi]) VALUES ('JereR') 
 GO 
 
+INSERT INTO Käyttäjä (Käyttäjänimi, OnAdmin) values ('Admin', 1);
+GO
  
 
 ------------------ARVIO------------- 
