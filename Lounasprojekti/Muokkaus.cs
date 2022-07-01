@@ -3,7 +3,9 @@ using LounasprojektiLib.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Linq;
-//b.IlmoittauduLounaalle(2, 2);
+/** <summary>
+ * Luokka jolla muokataan tietokantaa.
+ * </summary> */
 
 public class Muokkaus
 {

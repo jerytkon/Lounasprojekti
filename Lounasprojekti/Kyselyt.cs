@@ -3,6 +3,9 @@ using ConsoleTools;
 using LounasprojektiLib.Models;
 using System.Globalization;
 
+/** <summary>
+ * Luokka joka hakee tiedot tietokannasta.
+ * </summary> */
 public class Kyselyt
 {
     LounasDBContext db = new LounasDBContext();

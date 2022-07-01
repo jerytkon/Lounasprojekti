@@ -1,7 +1,9 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using ConsoleTools;
 using LounasprojektiLib.Models;
-
+/** <summary>
+ * Luokalla päivitetään kommentit
+ * </summary> */
 public class ValikkojenPäivitys
 {
     LounasDBContext db = new LounasDBContext();

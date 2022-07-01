@@ -4,7 +4,9 @@ using LounasprojektiLib.Models;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
-
+/** <summary>
+ * Luokalla tulostetaan konsolille tietoa.
+ * </summary> */
 public static class TietojenNäyttäminen
 {
     public static string RavintolaNimi { get; set; }

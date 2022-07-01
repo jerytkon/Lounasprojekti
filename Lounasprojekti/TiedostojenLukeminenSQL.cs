@@ -1,6 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using LounasprojektiLib.Models;
-
+/** <summary>
+ * Luokalla lisätään tiedostosta tietokantaan tietoa
+ * </summary> */
 public class TiedostojenLukeminenSQL
 {
     public static void LueKonsultit(string polku)
