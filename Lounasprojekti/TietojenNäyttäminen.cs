@@ -52,7 +52,6 @@ public static class TietojenNäyttäminen
                       select i.RavintolaId).First();
 
         RavintolaID = kysely;
-
     }
 
     public static void PäivitäKommenttiId(string kommentti)
@@ -62,7 +61,6 @@ public static class TietojenNäyttäminen
                       select i.ArvioId).First();
 
         ArvioID = kysely;
-
     }
 
     public static void PäivitäKäyttäjäId(int käyttäjäId)
@@ -72,7 +70,6 @@ public static class TietojenNäyttäminen
                       select i.KäyttäjäId).First();
 
         KäyttäjäID = kysely;
-
     }
 
     public static void NäytäRavintolanRuokailijat(int RavintolaID)
@@ -176,7 +173,6 @@ public static class TietojenNäyttäminen
                 con.Show();
             }));
         }
-
         return map;
     }
 

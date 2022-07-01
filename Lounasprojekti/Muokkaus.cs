@@ -97,7 +97,7 @@ public class Muokkaus
         Console.Write("Osoite: ");
         uusi.Osoite = Console.ReadLine();
 
-                Console.Write("Postinumero: ");
+        Console.Write("Postinumero: ");
         uusi.Postinumero = Console.ReadLine();
         
         Console.Write("Postitoimipaikka: ");
@@ -236,7 +236,7 @@ public class Muokkaus
         db.SaveChanges();
     }
 
-    public void sensuroiKommentti()
+    public void SensuroiKommentti()
     {
         var id = TietojenNäyttäminen.ArvioID;
         var kysely = (from i in db.Arvios
