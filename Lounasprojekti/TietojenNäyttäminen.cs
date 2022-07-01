@@ -181,18 +181,18 @@ public static class TietojenNäyttäminen
     }
 
 
-    public static void PäivitäVerkkosivu()
+    public static void PäivitäRuokalistaVerkkosivu()
     {
         var kysely = (from i in db.Ravintolas
                      where i.RavintolaId == RavintolaID
-                     select i.Verkkosivu).First();
-        Verkkosivu = kysely;
+                     select i.MenuUrl).First();
+        RuokalistaVerkkosivu = kysely;
     }
 
-   public static void AvaaVerkkosivu()
+   public static void AvaaRuokalistaUrl()
     {
-        PäivitäVerkkosivu();
-        var url = Verkkosivu;
+        PäivitäRuokalistaVerkkosivu();
+        var url = RuokalistaVerkkosivu;
         try
         {
             Process.Start(url);
@@ -214,7 +214,10 @@ public static class TietojenNäyttäminen
             }
             else
             {
-                throw;
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Ravintolalla ei tallennettua menu url osoitetta. Paina enter palataksesi.");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.ReadLine();
             }
         }
     }
