@@ -1,7 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using Lounasprojekti.Models;
 
-class Kirjautuminen
+public class Kirjautuminen
 {
     LounasDBContext db = new LounasDBContext();
     public int KäyttäjäId { get; set; } = 0;

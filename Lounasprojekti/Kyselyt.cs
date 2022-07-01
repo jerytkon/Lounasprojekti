@@ -3,7 +3,7 @@ using ConsoleTools;
 using Lounasprojekti.Models;
 using System.Globalization;
 
-class Kyselyt
+public class Kyselyt
 {
     LounasDBContext db = new LounasDBContext();
     CultureInfo culture = CultureInfo.InvariantCulture;

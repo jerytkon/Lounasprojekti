@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 //b.IlmoittauduLounaalle(2, 2);
 
-class Muokkaus
+public class Muokkaus
 {
 
     LounasDBContext db = new LounasDBContext();

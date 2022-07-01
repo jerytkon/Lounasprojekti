@@ -3,7 +3,7 @@ using ConsoleTools;
 using Lounasprojekti.Models;
 using System.Text;
 
-static class TietojenNäyttäminen
+public static class TietojenNäyttäminen
 {
     public static string RavintolaNimi { get; set; }
     public static int RavintolaID { get; set; }

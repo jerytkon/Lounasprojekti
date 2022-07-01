@@ -2,7 +2,7 @@
 using ConsoleTools;
 using Lounasprojekti.Models;
 
-class ValikkojenPäivitys
+public class ValikkojenPäivitys
 {
     LounasDBContext db = new LounasDBContext();
     public List<string> LuoKommentitValikkoLista()

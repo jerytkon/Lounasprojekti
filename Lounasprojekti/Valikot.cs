@@ -1,7 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using ConsoleTools;
 
-class Valikot
+public class Valikot
 {
     public string appAscii { get; set; } = @"
 
