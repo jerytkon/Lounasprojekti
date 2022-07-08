@@ -28,7 +28,7 @@ namespace LounasprojektiLib.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("server=localhost;database=LounasDB;trusted_connection=true");
+                optionsBuilder.UseSqlServer("Server = lunchapp.database.windows.net, 1433; Database = LounasDB; User ID = olenadmin; Password = Salasana123; Trusted_Connection = False; Encrypt = True;");
             }
         }
 
