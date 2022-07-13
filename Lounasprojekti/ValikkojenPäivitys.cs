@@ -1,14 +1,12 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using ConsoleTools;
 using LounasprojektiLib.Models;
-
 /** <summary>
  * Luokalla päivitetään kommentit
  * </summary> */
 public class ValikkojenPäivitys
 {
     LounasDBContext db = new LounasDBContext();
-
     public List<string> LuoKommentitValikkoLista()
     {
         var valikkoLista = new List<string>();
@@ -102,8 +100,7 @@ public class ValikkojenPäivitys
             }
         }
     }
-
-    public List<string> LuoKäyttäjienHallintaLista()
+   public List<string> LuoKäyttäjienHallintaLista()
     {
         var lista = new List<string>();
         var kysely = (from i in db.Käyttäjäs
@@ -114,5 +111,6 @@ public class ValikkojenPäivitys
         }
         return lista;
     }
+
 
 }

@@ -1,6 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using LounasprojektiLib.Models;
-
 /** <summary>
  * Luokka joka hallinnoi kirjautumista.
  * </summary> */
@@ -9,10 +8,10 @@ public class Kirjautuminen
     LounasDBContext db = new LounasDBContext();
     public int KäyttäjäId { get; set; } = 0;
     public string KäyttäjäNimi { get; set; }
+
     public int OnAdmin { get; set; }
 
     Muokkaus muokkausObjekti = new Muokkaus();
-
     public void Kirjaudu()
     {
         var valikot = new Valikot();
