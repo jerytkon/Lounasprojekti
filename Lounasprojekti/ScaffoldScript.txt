@@ -1,1 +1,4 @@
 ﻿Scaffold-DbContext 'server=localhost;database=LounasDB;trusted_connection=true' Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Force
+Install-Package Microsoft.EntityFrameworkCore.SqlServer
+Install-Package Microsoft.EntityFrameworkCore.Tools
+Install-Package Microsoft.EntityFrameworkCore.Design

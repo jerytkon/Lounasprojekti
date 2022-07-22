@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace LounasprojektiLib.Models
+namespace Käyttöliittymä.Models
 {
     public partial class LounasDBContext : DbContext
     {
